@@ -1,6 +1,7 @@
 #libraries
 import networkx as graphLibrary
 import matplotlib.pyplot as plot
+import random
 
 #functions
 def initGraph( graph ):
@@ -21,7 +22,6 @@ def initGraph( graph ):
     graph.add_node("4,2", pos=(4,2));
     graph.add_node("4,3", pos=(4,3));
     graph.add_node("4,4", pos=(4,4));
-
 
     #adding some edges into the graph
     graph.add_edge("2,2", "3,2");
@@ -44,7 +44,7 @@ def initGraph( graph ):
     graph.add_edge("3,4", "4,4");
 
 
-def drawGraph( graph ):
+def drawGraph( graph, colour):
     #creating the axis
     plot.ylim([0,5]);
     plot.xlim([0,5]);
@@ -56,19 +56,38 @@ def drawGraph( graph ):
     pos = graphLibrary.get_node_attributes(graph, 'pos');
     
     #drawing the graph
-    graphLibrary.draw_networkx(graph, pos, font_size=12, node_color='white', node_size=600, width=2.0);
+    graphLibrary.draw_networkx(graph, pos, font_size=12, node_color=colour, node_size=600, width=2.0);
+
+    #colour specific for the garages, pickup points and dropoff points
     plot.show();
+
+def createPoints( numberOfPackages, numberOfGarages, graph):
+    #generating random locations for the garage and the package
+    garageNumber = random.randrange(0, len(list(graph.nodes())));
+    packagePickupNumber = random.randrange(0, len(list(graph.nodes())));
+    packageDropoffNumber = random.randrange(0, len(list(graph.nodes())));
+        
+    while ((packageDropoffNumber == packagePickupNumber)):
+        packageDropoffNumber = random.randrange(1, len(list(graph.nodes())));
+    
+    garageNodes = list(graph.nodes())[garageNumber];
+    packagePickupNodes = list(graph.nodes())[packagePickupNumber];
+    packageDropoffNodes = list(graph.nodes())[packageDropoffNumber];
+
+    print "Garage Location: " + str(garageNodes);
+    print "Package Pickup Location: " + str(packagePickupNodes);
+    print "Package Dropoff Location: " + str(packageDropoffNodes);
+
+    drawGraph( graph, 'white' );
+    garageGraph = graphLibrary.Graph();
+    garageGraph.add_node(garageNodes);
+    drawGraph( garageGraph, 'red' );
+
 
 #setting up staticGraph
 staticGraph = graphLibrary.Graph();
 initGraph(staticGraph);
 
 #testing the graph
-print("Here is a list of the graphs nodes");
-print(list(staticGraph.nodes()));
-
-print("Here is a list of the graphs edges");
-print(list(staticGraph.edges()));
-
-drawGraph( staticGraph );
+createPoints( 1, 1, staticGraph)
 
