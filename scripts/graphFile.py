@@ -43,6 +43,8 @@ def initGraph( graph ):
     graph.add_edge("4,3", "4,4");
     graph.add_edge("3,4", "4,4");
 
+    graph.nodes(data=True);
+
 
 def drawGraph( graph, colour):
     #creating the axis
@@ -69,14 +71,8 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
         
     while ((packageDropoffNumber == packagePickupNumber)):
         packageDropoffNumber = random.randrange(1, len(list(graph.nodes())));
-    
-    garageNodes = list(graph.nodes())[garageNumber];
-    packagePickupNodes = list(graph.nodes())[packagePickupNumber];
-    packageDropoffNodes = list(graph.nodes())[packageDropoffNumber];
 
-    print "Garage Location: " + str(garageNodes);
-    print "Package Pickup Location: " + str(packagePickupNodes);
-    print "Package Dropoff Location: " + str(packageDropoffNodes);
+    return [garageNumber, packagePickupNumber, packageDropoffNumber]
 
 def testing():
     #setting up staticGraph
