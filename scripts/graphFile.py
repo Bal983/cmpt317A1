@@ -78,12 +78,12 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
     print "Package Pickup Location: " + str(packagePickupNodes);
     print "Package Dropoff Location: " + str(packageDropoffNodes);
 
-    drawGraph( graph, 'white' );
-
-#setting up staticGraph
-staticGraph = graphLibrary.Graph();
-initGraph(staticGraph);
-
-#testing the graph
-createPoints( 1, 1, staticGraph)
+def testing():
+    #setting up staticGraph
+    staticGraph = graphLibrary.Graph();
+    initGraph(staticGraph);
+    
+    #testing the graph
+    createPoints( 1, 1, staticGraph);
+    drawGraph( staticGraph, 'white' );
 
