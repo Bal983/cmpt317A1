@@ -3,6 +3,27 @@ import networkx as graphLibrary
 import graphFile
 import search
 
+#functions
+def useDFS(garageNode, packagePickupNode, packageDropoffNode):
+    #calling DFS on the graph
+    currentLocation = garageNode;
+    #this first call gets the package
+    currentLocation = search.depthFirstSearch(mainGraph, currentLocation, packagePickupNode);
+    #this second call delivers the package
+    currentLocation = search.depthFirstSearch(mainGraph, currentLocation, packageDropoffNode);
+    #this final call goes home
+    currentLocation = search.depthFirstSearch(mainGraph, currentLocation, garageNode);
+
+def useBFS(garageNode, packagePickupNode, packageDropoffNode):
+    #calling BFS on the graph
+    currentLocation = garageNode;
+    #this first call gets the package
+    currentLocation = search.breadthFirstSearch(mainGraph, currentLocation, packagePickupNode);
+    #this second call delivers the package
+    currentLocation = search.breadthFirstSearch(mainGraph, currentLocation, packageDropoffNode);
+    #this final call goes home
+    currentLocation = search.breadthFirstSearch(mainGraph, currentLocation, garageNode);
+
 #main
 #setting up a graph
 mainGraph = graphLibrary.Graph();
@@ -21,23 +42,9 @@ print "Garage Location: " + str(garageNode);
 print "Package Pickup Location: " + str(packagePickupNode);
 print "Package Dropoff Location: " + str(packageDropoffNode);
 
-currentLocation = garageNode;
+useDFS(garageNode, packagePickupNode, packageDropoffNode);
 
-#calling DFS on the graph
-#this first call gets the package
-currentLocation = search.depthFirstSearch(mainGraph, currentLocation, packagePickupNode);
-#this second call delivers the package
-currentLocation = search.depthFirstSearch(mainGraph, currentLocation, packageDropoffNode);
-#this final call goes home
-currentLocation = search.depthFirstSearch(mainGraph, currentLocation, garageNode);
-
-if(currentLocation == garageNode):
-    print "success!"
-
-#calling BFS on the graph
-#search.breadthFirstSearch(mainGraph, garageNode);
-
-#calling A* on the graph
-#search.aStarSearch(mainGraph, garageNode);
+useBFS(garageNode, packagePickupNode, packageDropoffNode);
 
 graphFile.drawGraph(mainGraph, 'white');
+
