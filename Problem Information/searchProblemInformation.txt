@@ -1,0 +1,40 @@
+This file puts our ideas about framing this problem as a search problem into writing. It is not set in stone and the rules we decided may change over time as we work to implement
+
+Three parameters:
+- N: number of vehicles
+- K: number of packages
+- M: number of nodes in our map graph (i.e. number of locations on the map)
+
+Assuming our graph only allows movement in the 4 cardinal directions (N, S, E and W):
+
+Start State Details:
+- N vehicles are placed on the map at a randomly determined "garage" nodes
+        - Each vehicle will start and end their route at a "garage" node
+        - No restrictions on car placement - multiple cars sharing a garage location is permitted
+        - Vehicles must return to the garage at the end of their route, but do not need to return to the garage between packages
+        - Vehicles can only carry up to ONE package at any given time
+- K packages are placed on the map at randomly determined "pickup" nodes
+        - Each package has a randomly determined "drop off" node assigned to it
+        - No restrictions on where packages are placed or dropped off, possible that packages are placed on "garage" nodes
+        - Also possible that a package is picked up from the same location it is to be dropped off
+- Vehicles start without holding a package
+- All locations are connected by at least one edge to the graph (i.e. no locations are unreachable)
+- Each edge is considered to have an equal cost so if one path visits 5 nodes to get to a location and another visits 2 nodes to get to that same location, the second path will be considered "better"
+        - This may change as the project goes on, we may want to set arbitrary weights on edges to make certain paths more objectively optimal than others
+
+Goal State Details:
+- The queue of packages to be picked up is empty and the queue of packages to be dropped off is empty
+- All vehicles have returned "home" to their garage node
+
+Transition Operator Details:
+    - pick up or put down a package
+    - move up/north
+    - move down/south
+    - move left/west
+    - move right/east
+    
+This means that each node on our graph can contribute up to five edges toward the conceptual state space
+
+Branching Factor Details:
+
+- Depends on number of transition operators
