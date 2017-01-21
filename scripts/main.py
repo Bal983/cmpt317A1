@@ -33,7 +33,11 @@ graphFile.makeGraphList( 10 )
 graphFile.makeAllFigures ( "white")
 #setting up a graph
 mainGraph = graphLibrary.Graph()
+<<<<<<< HEAD
 graphFile.initPresetGraph1(mainGraph)
+=======
+graphFile.initGraph(mainGraph)
+>>>>>>> 039a5e47e5047caa416100937a7f114f7ef875e9
 
 #setting up the random points
 #note; pointsList will be an array of size 3(for now), where the first item is the randomly generated location of the garage, the second item is the randomly generated location of the packages pickup location, and the third item is the randomly generated location of the packages dropoff location. These numbers will be integers.

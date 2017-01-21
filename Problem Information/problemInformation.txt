@@ -1,0 +1,101 @@
+What is the problem?
+
+
+Difficulty Tier(not organized yet, just features of difificulty)
+
+<---> represents spectrum
+-----------------------------------
+1 car vs n cars    <---->
+Stocastic or Deterministic edges
+	frequency/trickiness measures of stocastic environment <---->
+Ghost cars or collision avoidance
+Dropping packages to handoff or trade routes vs being stuck with your package
+	Can a package be left unattended or can it be cached in a node waiting for the new car ?
+single vs  n packages  <----->
+Connectedness  <---->
+Deadendedness <---->
+Cycle count <----->
+optimal costs of the tasks probility   <----> (how hard is each route)
+Node count <----->
+Real time package spawning <------>
+
+
+Performance measures of the problem:
+
+- how much work needs to be done for the graph to be analyzed the first time (if we're trying to prune the tree before providing it to a search, not permanently unless only one route )
+-fastest time to deliver the package
+-total problem completion cost
+-total delivery portion's cost ( happiest customers on average) could use average or slowest
+	-probably needs a function that exponentially punishes high cost(or actual clock time maybe?) deliveries.
+-
+-----------------------------------
+
+Searches:
+
+
+
+BFS
+Motives: Optimal and  can work in memory for low depth trees 
+
+Data:
+Data:
+WORST:
+AVG  : 
+BEST :
+
+-----------------------------------
+
+DFS
+
+Motives: Linear memory time if storing nodes becomes a problem, not optimal though
+Data:
+WORST:
+AVG  : 
+BEST :
+
+
+-----------------------------------
+
+
+UniCost(If we want to test with edge costs)
+Better BFS
+
+Data:
+WORST:
+AVG  : 
+BEST :
+
+
+
+-----------------------------------
+
+
+BiDirectional Addition
+Motives: turn the average b into (b/2)
+-This requires us to initiate a search from the goal state to the start state.
+This will work the best with a good heuristic so that the number of nodes checked on each step isn't too much.
+
+Before After Comparisons for different searches go here.
+
+
+Other considerations : it is possible to change the goal state to the best state of the opposite search so far 
+Imagine a grid with S and G on opposite corners. Then the goal state changes. 
+Put into english as best as I can  : each will heat seek the node that the other thought was best. We can extend is further with this :
+At n^2 cost where n is the number of nodes in each of the two paths, we can check how the heuristic judges each node in one
+with each in the other. This would potentially reduce the chance of ignoring a path that didn't appear good until the "backwards car"
+
+
+Before After Comparisons for different searches go here.
+
+	- 
+
+A* (to be optimal we need to prove the heuristic is  of our function H(n) is admissible)
+
+Heuristics:
+
+-popularity of a node or edge ( nodes store visited counts ) "the smell of burnt rubber" 
+-perfect world distance
+	- extended to count dropping and other things
+
+-best perfect world state that you can find 
+
