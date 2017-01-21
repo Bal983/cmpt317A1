@@ -2,9 +2,43 @@
 import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
+from networkx.generators.classic import empty_graph, complete_graph, grid_graph
+# Member Variables
+graphs = []
 
 #functions
-def initGraph( graph ):
+
+
+
+def makeGraphList( size ):
+    completeRandomGraph( size )
+    randomGridGraph ( size )
+    
+
+def completeRandomGraph(size):
+    print "Forming a random complete graph of size " + str(size) + "."
+  
+    G = graphLibrary.complete_graph(size)
+    
+    print "Here's the stats of random complete graph :"
+    printGraphStats(G)
+    graphLibrary.random_layout(G)
+    graphs.append(G)
+def randomGridGraph ( size):
+    print "Forming a random grid graph of size " + str(size) + "."
+    
+    G = graphLibrary.complete_graph(size)
+    print "Here's the stats of random grid graph :"
+    printGraphStats(G)
+    graphLibrary.random_layout(G)
+    graphs.append(G)
+
+
+def printGraphStats( toPrint ):
+    print("Standard library stats:")
+    print (graphLibrary.info(toPrint))
+
+def initPresetGraph1( graph ):
     #adding the nodes to make a 3 by 3 graph
     graph.add_node("1,1", pos=(1,1));
     graph.add_node("1,2", pos=(1,2));
@@ -45,11 +79,17 @@ def initGraph( graph ):
 
     graph.nodes(data=True);
 
-
-def drawGraph( graph, colour):
-    #creating the axis
-    plot.ylim([0,5]);
-    plot.xlim([0,5]);
+def makeAllFigures( color):
+    plot.figure(0)
+    count = 0
+    
+    for graph in graphs:
+        plot.title("Graph #:" + (str)(count+1))
+    count = count +1
+    plot.figure(count)
+    
+    drawGraph (graph , color , 10 , 10
+    plot.xlim([0,x]);
     
     #setting some options
     plot.title("Initial Graph");
@@ -75,11 +115,16 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
     return [garageNumber, packagePickupNumber, packageDropoffNumber]
 
 def testing():
+    makeGraphList( 10 )
     #setting up staticGraph
     staticGraph = graphLibrary.Graph();
     initGraph(staticGraph);
-    
+    #plot.figure(2):
     #testing the graph
-    createPoints( 1, 1, staticGraph);
-    drawGraph( staticGraph, 'white' );
+    makeAllFigures("red")
+    for i in range(0,3):
+        createPoints( 1, 1, graphs[i]);
+        drawGraph (graphs[i, "green"], 50, 50)
+    drawGraph(staticGraph , "purple" , 10 , 10);
+
 
