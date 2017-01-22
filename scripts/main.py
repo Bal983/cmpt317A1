@@ -40,9 +40,10 @@ def useBFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
 
 #_______________main_______________
 #Generating a list of functions to show
+size = 3
 
-graphFile.makeGraphList( 10 )           #5 is the size of the non preset graphs, can be changed.
-graphFile.makeAllFigures ( "white")     #Color that looks nice
+graphFile.makeGraphList( size )           #5 is the size of the non preset graphs, can be changed.
+graphFile.makeAllFigures ( "white" )     #Color that looks nice
 graphFile.testing()
 
 #setting up the random points
