@@ -35,3 +35,29 @@ nx.draw(H,pos,node_color='b',node_size=20,with_labels=False)
 
 plt.savefig("four_grids.png")
 plt.show()
+
+
+
+######################
+#Another grid, but this one can be anysize
+
+
+
+try:
+    import matplotlib.pyplot as pltGrid
+except:
+    raise
+
+
+
+
+
+
+N = 10
+G=nx.grid_2d_graph(N,N)
+pos = dict( (n, n) for n in G.nodes() )
+labels = dict( ((i, j), i * 10 + j) for i, j in G.nodes() )
+nx.draw_networkx(G, pos=pos, labels=labels)
+
+pltGrid.axis('off')
+pltGrid.show()

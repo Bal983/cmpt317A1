@@ -3,6 +3,7 @@ import networkx as graphLibrary
 from collections import deque
 
 #functions
+#Time 
 def depthFirstSearch(graphToSearch, startNode, endNode):
     print("DFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
@@ -93,3 +94,4 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
 
 def aStarSearch(graphToSearch, startNode):
     print("A* search called");
+    
