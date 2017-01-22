@@ -2,7 +2,7 @@
 Draw a graph with matplotlib.
 You must have matplotlib for this to work.
 """
-from random import randrange
+
 __author__ = """Aric Hagberg (hagberg@lanl.gov)"""
 #    Copyright (C) 2004-2015
 #    Aric Hagberg <hagberg@lanl.gov>
@@ -14,44 +14,40 @@ __author__ = """Aric Hagberg (hagberg@lanl.gov)"""
 import random
 
 try:
+    import math
+    from ast import literal_eval    #additional library to fix a string interpretat
     import matplotlib.pyplot as plt
+    import graphFile
+    from networkx.generators.classic import empty_graph, complete_graph, grid_graph
+
 except:
     raise
-
 import networkx as nx
 
-
+from random import randrange
 def minimumSpanningTree( G ):
     trim(G , 1.0 , 1.0)
 def trim( G , minDegree , likelyHood):
     #All edges retrieved from the graph
-	#
     print("Trimming" + str(G))
     print ("Nodes :" + str(G.nodes(True)))
     for n in G.nodes():
-        print("Processing node: " + str(n))
+         print("Processing node: " + str(n))
          #Each edge is initially valid to remove
-
-
-        neighbours = nx.to_edgelist(G,n)
-        print("List of edges attached to " + str(n) + " : " + str( neighbours))
-        edgesToNeighbours = []
-        for e in neighbours:
-
+         neighbours = nx.to_edgelist(G,n)
+         print("List of edges attached to " + str(n) + " : " + str( neighbours))
+         edgesToNeighbours = []
+         for e in neighbours:
              # edgesToNeighbours.append( (e[0],e[1],))
-
-
-
              if(G.degree(n) > minDegree):
-
-                for adjacent in edgesToNeighbours:
-
-
+                 #The edges to be processed
+                 for adjacent in edgesToNeighbours:
                     #valid = (G.degree(adjacent) > minDegree  or   G.degree(n) > minDegree)
-                    valid = (G.degree(n) > minDegree)
+                    # Both nodes must meet the criteria
+                    valid = (G.degree(n) > minDegree or G.degree(adjacent[1]))
+                    print( (likelyHood) >= random.random() )
 
-                    print  (  (likelyHood) >= random.random())
-                    if( valid):
+                    if(valid):
 
                         print("removing" + str())
 
@@ -111,6 +107,5 @@ nx.draw_networkx(G, pos=pos, labels=labels)
 pltGrid.axis('off')
 pltGrid.show()
 
-
-
-
+def test():
+     print

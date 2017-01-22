@@ -3,18 +3,18 @@ import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
 import math
+import graphFile
 from ast import literal_eval    #additional library to fix a string interpretation issue
 from networkx.generators.classic import empty_graph, complete_graph, grid_graph
 
 # Member Variables
 graphs = []                 #A list of graphs that the graphFile manages
-
 #functions
 def makeGraphList( size ):
     graphs = []
     presetGraph()
     gridGraph ( size )                  #in grid graph, size represents the number of nodes in each dimension.
-    
+
 def presetGraph():
     print "Creating the preset 4 by 4 graph:"
     G = graphLibrary.Graph()
@@ -33,8 +33,8 @@ def gridGraph ( size ):
 
 def printGraphStats( toPrint ):
     print("Standard library stats:")
-    print (graphLibrary.info(toPrint))
-    print
+    print(graphLibrary.info(toPrint))
+    print()
 
 def initPresetGraph1( graph ):
     #adding the nodes to make a 4 by 4 graph
@@ -77,12 +77,14 @@ def initPresetGraph1( graph ):
 
 def makeAllFigures( color ):
     count = 0
-    
+
     for graph in graphs:
         count = count + 1
         plot.figure(count)
-        drawGraph (graph , color)
-        
+        if(graph.number_of_nodes() > 0):
+            drawGraph ( graph , color)
+
+
     #showing the graphs, will pause the scripts
     plot.show();
 
@@ -92,17 +94,18 @@ def drawGraph( graph, colour):
     #creating the axis
     plot.ylim([-0.5,(size+1.5)])
     plot.xlim([-0.5,(size+1.5)])
-    
-    
+
+
     pos = {}
     for node in graph:
         nodeAsString = str(node)
-        pos[nodeAsString] = literal_eval(nodeAsString)     
-    print pos 
+        pos[nodeAsString] = literal_eval(nodeAsString)
+    print pos
 
     #graphLibrary.set_node_attributes(graph,'pos',pos)
 
     #drawing the graph
+    print (str(pos))
     graphLibrary.draw_networkx(graph, pos, node_color=colour, width=2.0, linewidth=2.0, font_size=10, node_size=800)
 
 def createPoints( numberOfPackages, numberOfGarages, graph):
@@ -110,7 +113,7 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
     garageNumber = random.randrange(0, len(list(graph.nodes())));
     packagePickupNumber = random.randrange(0, len(list(graph.nodes())));
     packageDropoffNumber = random.randrange(0, len(list(graph.nodes())));
-        
+
     while ((packageDropoffNumber == packagePickupNumber)):
         packageDropoffNumber = random.randrange(1, len(list(graph.nodes())));
 
@@ -118,6 +121,6 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
 
 def testing():
     makeGraphList( 10 )
-    
     #testing the graph
     makeAllFigures("red")
+    graphFile.graphs[0] = gridGraph(17)

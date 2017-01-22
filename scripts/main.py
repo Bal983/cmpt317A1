@@ -6,7 +6,7 @@ import search
 
 #_______________functions_______________
 #given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
-#deliver the package, and then go home. Uses the Depth first search algorithm with no heuristics
+#deliver the package, and then go home. Uses the Depth first search algorithm with basic heuristics
 def useDFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
 
     #calling DFS on the graph
