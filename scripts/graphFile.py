@@ -3,43 +3,51 @@ import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
 from networkx.generators.classic import empty_graph, complete_graph, grid_graph
+
 # Member Variables
-graphs = []
+graphs = []                 #A list of graphs that the graphFile manages
 
 #functions
-
-
-
 def makeGraphList( size ):
     completeRandomGraph( size )
     randomGridGraph ( size )
+    presetGraph()
     
-
+def presetGraph():
+    print "Creating the preset 4 by 4 graph:"
+    
+    G = graphLibrary.Graph()
+    initPresetGraph1(G)
+    
+    print "Here's the stats of preset graph:"
+    printGraphStats(G)
+    graphs.append(G)
+    
 def completeRandomGraph(size):
     print "Forming a random complete graph of size " + str(size) + "."
   
     G = graphLibrary.complete_graph(size)
     
-    print "Here's the stats of random complete graph :"
-    printGraphStats(G)
-    graphLibrary.random_layout(G)
-    graphs.append(G)
-def randomGridGraph ( size):
-    print "Forming a random grid graph of size " + str(size) + "."
-    
-    G = graphLibrary.complete_graph(size)
-    print "Here's the stats of random grid graph :"
+    print "Here's the stats of random complete graph:"
     printGraphStats(G)
     graphLibrary.random_layout(G)
     graphs.append(G)
 
+def randomGridGraph ( size):
+    print "Forming a random grid graph of size " + str(size) + "."
+    G = graphLibrary.complete_graph(size)
+    print "Here's the stats of random grid graph:"
+    printGraphStats(G)
+    graphLibrary.random_layout(G)
+    graphs.append(G)
 
 def printGraphStats( toPrint ):
     print("Standard library stats:")
     print (graphLibrary.info(toPrint))
+    print
 
 def initPresetGraph1( graph ):
-    #adding the nodes to make a 3 by 3 graph
+    #adding the nodes to make a 4 by 4 graph
     graph.add_node("1,1", pos=(1,1));
     graph.add_node("1,2", pos=(1,2));
     graph.add_node("1,3", pos=(1,3));
@@ -85,22 +93,12 @@ def makeAllFigures( color):
     
     for graph in graphs:
         plot.title("Graph #:" + (str)(count+1))
-    count = count +1
-    plot.figure(count)
-    
-    drawGraph (graph , color , 10 , 10
-    plot.xlim([0,x]);
-    
-    #setting some options
-    plot.title("Initial Graph");
-    
-    #getting the positions
-    pos = graphLibrary.get_node_attributes(graph, 'pos');
-    
-    #drawing the graph
-    graphLibrary.draw_networkx(graph, pos, font_size=12, node_color=colour, node_size=600, width=2.0);
+        count = count +1
+        plot.figure(count)
 
-    #colour specific for the garages, pickup points and dropoff points
+    drawGraph (graph , color , 10 , 10)
+
+    #showing the graphs, will pause the scripts
     plot.show();
 
 def createPoints( numberOfPackages, numberOfGarages, graph):
@@ -114,11 +112,25 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
 
     return [garageNumber, packagePickupNumber, packageDropoffNumber]
 
+def drawGraph( graph, colour, width, height):
+    #creating the axis
+    plot.ylim([0,height])
+    plot.xlim([0,width])
+    
+    #setting some options
+    plot.title("Initial Graph")
+      
+    #getting the positions
+    #pos = graphLibrary.get_node_attributes(graph, 'pos')
+      
+    #drawing the graph
+    graphLibrary.draw_networkx(graph, node_color=colour,)
+
 def testing():
     makeGraphList( 10 )
     #setting up staticGraph
     staticGraph = graphLibrary.Graph();
-    initGraph(staticGraph);
+    initPresetGraph1(staticGraph);
     #plot.figure(2):
     #testing the graph
     makeAllFigures("red")

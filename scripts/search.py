@@ -91,6 +91,5 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
     print
     return currentNode
 
-
 def aStarSearch(graphToSearch, startNode):
     print("A* search called");
