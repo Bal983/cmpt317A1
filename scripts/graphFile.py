@@ -11,7 +11,7 @@ graphs = []                 #A list of graphs that the graphFile manages
 #functions
 def makeGraphList( size ):
     #completeRandomGraph( size*size )    #size here specifies the number of nodes, so if we want a 5 sided grid graph, we want 25 nodes so we square it here
-    gridGraph ( size )                  #in grid graph, size represents the number of nodes in each dimension.
+    #gridGraph ( size )                  #in grid graph, size represents the number of nodes in each dimension.
     presetGraph()
     
 def presetGraph():
@@ -115,7 +115,7 @@ def drawGraph( graph, colour):
     
     edgeSize = math.sqrt(int(len(graph.nodes())))
     
-    positions = dict()
+    positions = {}
     
     #generating the positions
     for node in graph.nodes():
@@ -123,8 +123,12 @@ def drawGraph( graph, colour):
         nodeAsString = nodeAsString.replace("(","")
         nodeAsString = nodeAsString.replace(")","")
         nodeAsString = nodeAsString.replace(" ","")
+        print nodeAsString
+        positions[nodeAsString] = nodeAsString
+        
+    print positions
     #drawing the graph
-    graphLibrary.draw_networkx(graph, node_color=colour, width=2.0, linewidth=2.0, font_size=14, node_size=800)
+    graphLibrary.draw_networkx(graph, positions, node_color=colour, width=2.0, linewidth=2.0, font_size=14, node_size=800)
 
 def testing():
     makeGraphList( 10 )
