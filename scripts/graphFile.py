@@ -123,8 +123,6 @@ def drawGraph( graph, colour):
         nodeAsString = nodeAsString.replace("(","")
         nodeAsString = nodeAsString.replace(")","")
         nodeAsString = nodeAsString.replace(" ","")
-        print nodeAsString
-    
     #drawing the graph
     graphLibrary.draw_networkx(graph, node_color=colour, width=2.0, linewidth=2.0, font_size=14, node_size=800)
 
