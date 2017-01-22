@@ -2,6 +2,7 @@
 import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
+import math
 from networkx.generators.classic import empty_graph, complete_graph, grid_graph
 
 # Member Variables
@@ -9,8 +10,8 @@ graphs = []                 #A list of graphs that the graphFile manages
 
 #functions
 def makeGraphList( size ):
-    completeRandomGraph( size )
-    randomGridGraph ( size )
+    #completeRandomGraph( size*size )    #size here specifies the number of nodes, so if we want a 5 sided grid graph, we want 25 nodes so we square it here
+    gridGraph ( size )                  #in grid graph, size represents the number of nodes in each dimension.
     presetGraph()
     
 def presetGraph():
@@ -33,10 +34,10 @@ def completeRandomGraph(size):
     graphLibrary.random_layout(G)
     graphs.append(G)
 
-def randomGridGraph ( size):
-    print "Forming a random grid graph of size " + str(size) + "."
-    G = graphLibrary.complete_graph(size)
-    print "Here's the stats of random grid graph:"
+def gridGraph ( size ):
+    print "Forming a grid graph of size " + str(size) + "."
+    G = graphLibrary.grid_2d_graph(size, size, periodic=False, create_using=None)
+    print "Here's the stats of the grid graph:"
     printGraphStats(G)
     graphLibrary.random_layout(G)
     graphs.append(G)
@@ -85,19 +86,14 @@ def initPresetGraph1( graph ):
     graph.add_edge("4,3", "4,4");
     graph.add_edge("3,4", "4,4");
 
-    graph.nodes(data=True);
-
 def makeAllFigures( color):
-    plot.figure(0)
     count = 0
     
     for graph in graphs:
-        plot.title("Graph #:" + (str)(count+1))
-        count = count +1
+        count = count + 1
         plot.figure(count)
-
-    drawGraph (graph , color , 10 , 10)
-
+        drawGraph (graph , color )
+        
     #showing the graphs, will pause the scripts
     plot.show();
 
@@ -112,19 +108,25 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
 
     return [garageNumber, packagePickupNumber, packageDropoffNumber]
 
-def drawGraph( graph, colour, width, height):
+def drawGraph( graph, colour):
     #creating the axis
-    plot.ylim([0,height])
-    plot.xlim([0,width])
+    plot.ylim([-0.5,1.5])
+    plot.xlim([-0.5,1.5])
     
-    #setting some options
-    plot.title("Initial Graph")
-      
-    #getting the positions
-    #pos = graphLibrary.get_node_attributes(graph, 'pos')
-      
+    edgeSize = math.sqrt(int(len(graph.nodes())))
+    
+    positions = dict()
+    
+    #generating the positions
+    for node in graph.nodes():
+        nodeAsString = str(node)
+        nodeAsString = nodeAsString.replace("(","")
+        nodeAsString = nodeAsString.replace(")","")
+        nodeAsString = nodeAsString.replace(" ","")
+        print nodeAsString
+    
     #drawing the graph
-    graphLibrary.draw_networkx(graph, node_color=colour,)
+    graphLibrary.draw_networkx(graph, node_color=colour, width=2.0, linewidth=2.0, font_size=14, node_size=800)
 
 def testing():
     makeGraphList( 10 )

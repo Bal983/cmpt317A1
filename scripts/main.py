@@ -40,8 +40,8 @@ def useBFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
 
 #_______________main_______________
 #Generating a list of functions to show
-graphFile.makeGraphList( 10 )
-graphFile.makeAllFigures ( "white")
+graphFile.makeGraphList( 5 )            #5 is the size of the non preset graphs, can be changed.
+graphFile.makeAllFigures ( "white")     #Color that looks nice
 
 #setting up the random points
 #note; pointsList will be an array of size 3(for now), where the first item is the randomly generated location of the garage
