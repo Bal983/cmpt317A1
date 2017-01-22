@@ -8,32 +8,32 @@ import search
 #given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
 #deliver the package, and then go home. Uses the Depth first search algorithm with no heuristics
 def useDFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
-    
+
     #calling DFS on the graph
     currentLocation = garageNode
-    
+
     #this first call gets the package
     currentLocation = search.depthFirstSearch(graphToSearch, currentLocation, packagePickupNode)
-    
+
     #this second call delivers the package
     currentLocation = search.depthFirstSearch(graphToSearch, currentLocation, packageDropoffNode)
-    
+
     #this final call goes home
     currentLocation = search.depthFirstSearch(graphToSearch, currentLocation, garageNode)
 
 #given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
 #deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics
 def useBFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
-    
+
     #calling BFS on the graph
     currentLocation = garageNode
-    
+
     #this first call gets the package
     currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, packagePickupNode)
-    
+
     #this second call delivers the package
     currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, packageDropoffNode)
-    
+
     #this final call goes home
     currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, garageNode)
 
@@ -42,6 +42,7 @@ def useBFS(graphToSearch, garageNode, packagePickupNode, packageDropoffNode):
 #Generating a list of functions to show
 graphFile.makeGraphList( 10 )
 graphFile.makeAllFigures ( "white")
+graphFile.testing()
 
 #setting up the random points
 #note; pointsList will be an array of size 3(for now), where the first item is the randomly generated location of the garage
@@ -58,12 +59,12 @@ for graph in graphFile.graphs:
     print "Garage Location: " + str(garageNode)
     print "Package Pickup Location: " + str(packagePickupNode)
     print "Package Drop-off Location: " + str(packageDropoffNode)
-    
+
     print "Doing a DFS search on the above locations, this will pick up and drop off one package and then go home"
     useDFS(graph, garageNode, packagePickupNode, packageDropoffNode)
-    
+
     print "Doing a BFS search on the above locations, this will pick up and drop off one package and then go home"
     useBFS(graph, garageNode, packagePickupNode, packageDropoffNode)
-    
-    
+
+
 print "Done!"
