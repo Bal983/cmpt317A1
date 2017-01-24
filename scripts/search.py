@@ -41,11 +41,6 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
         for node in neighborsList:
             if node not in nodesVisited:
                 toVisitStack.append(node)
-                
-        #print nodesVisited
-        #print toVisitStack
-        #print "~~~~~"
-        #print 
 
     print "Number of nodes explored: " + str(counter);
     print
@@ -98,4 +93,7 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
 
 def aStarSearch(graphToSearch, startNode, endNode):
     print("A* search called");
+    
+def testing():
+    print "testing the search file"
     

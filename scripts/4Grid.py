@@ -1,8 +1,3 @@
-"""
-Draw a graph with matplotlib.
-You must have matplotlib for this to work.
-"""
-
 __author__ = """Aric Hagberg (hagberg@lanl.gov)"""
 #    Copyright (C) 2004-2015
 #    Aric Hagberg <hagberg@lanl.gov>
@@ -11,8 +6,7 @@ __author__ = """Aric Hagberg (hagberg@lanl.gov)"""
 #    All rights reserved.
 #    BSD license.
 
-import random
-
+#Imports
 try:
     import math
     from ast import literal_eval    #additional library to fix a string interpretat
@@ -23,10 +17,12 @@ try:
 except:
     raise
 import networkx as nx
+import random
 
-from random import randrange
+#functions
 def minimumSpanningTree( G ):
     trim(G , 1.0 , 1.0)
+    
 def trim( G , minDegree , likelyHood):
     #All edges retrieved from the graph
     print("Trimming" + str(G))
@@ -53,8 +49,7 @@ def trim( G , minDegree , likelyHood):
 
                         G.remove_edge(e )
                         print ("Nodes :" + str(G.nodes(False)))
-
-
+                        
 '''
 G=nx.grid_2d_graph(4,4)  #4x4 grid
 
@@ -78,9 +73,6 @@ plt.show()
 '''
                         ######################
 #Another grid, but this one can be anysize
-
-
-
 try:
     import matplotlib.pyplot as pltGrid
 except:
@@ -94,9 +86,6 @@ nx.draw_networkx(G, pos=pos, labels=labels)
 pltGrid.axis('off')
 pltGrid.show()
 
-
-
-
 N = 3#input("Enter dimensions for grid plot.")
 G=nx.grid_2d_graph(N,N)
 trim( G , 1.0 , 1.0)
@@ -106,6 +95,3 @@ labels = dict( ((i, j), i * 10 + j) for i, j in G.nodes() )
 nx.draw_networkx(G, pos=pos, labels=labels)
 pltGrid.axis('off')
 pltGrid.show()
-
-def test():
-     print
