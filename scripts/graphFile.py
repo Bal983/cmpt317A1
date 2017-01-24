@@ -3,16 +3,15 @@ import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
 import math
-import graphFile
 from ast import literal_eval    #additional library to fix a string interpretation issue
 from networkx.generators.classic import empty_graph, complete_graph, grid_graph
 
 # Member Variables
 graphs = []                 #A list of graphs that the graphFile manages
+
 #functions
 def makeGraphList( size ):
-    graphs = []
-    presetGraph()
+    #presetGraph()
     gridGraph ( size )                  #in grid graph, size represents the number of nodes in each dimension.
 
 def presetGraph():
@@ -28,13 +27,12 @@ def gridGraph ( size ):
     G = graphLibrary.grid_2d_graph(size, size, periodic=False, create_using=None)
     print "Here's the stats of the grid graph:"
     printGraphStats(G)
-    graphLibrary.random_layout(G)
     graphs.append(G)
 
 def printGraphStats( toPrint ):
-    print("Standard library stats:")
-    print(graphLibrary.info(toPrint))
-    print()
+    print ("Standard library stats:")
+    print (graphLibrary.info(toPrint))
+    print
 
 def initPresetGraph1( graph ):
     #adding the nodes to make a 4 by 4 graph
@@ -100,13 +98,9 @@ def drawGraph( graph, colour):
     for node in graph:
         nodeAsString = str(node)
         pos[nodeAsString] = literal_eval(nodeAsString)
-    print pos
-
-    #graphLibrary.set_node_attributes(graph,'pos',pos)
-
+        
     #drawing the graph
-    print (str(pos))
-    graphLibrary.draw_networkx(graph, pos, node_color=colour, width=2.0, linewidth=2.0, font_size=10, node_size=800)
+    graphLibrary.draw_networkx(graph, node_color=colour, width=2.0, linewidth=2.0, font_size=10, node_size=800)
 
 def createPoints( numberOfPackages, numberOfGarages, graph):
     #generating random locations for the garage and the package
@@ -122,5 +116,5 @@ def createPoints( numberOfPackages, numberOfGarages, graph):
 def testing():
     makeGraphList( 10 )
     #testing the graph
-    makeAllFigures("red")
-    graphFile.graphs[0] = gridGraph(17)
+    #makeAllFigures("red")
+    graphs[0] = gridGraph(17)
