@@ -63,3 +63,6 @@ def useAStar( graphToSearch, garageNode, packagePickupNodes, packageDropoffNodes
     
 def testing():
     print "testing the car file"
+    
+if __name__ == "__main__":
+    testing()

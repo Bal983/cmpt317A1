@@ -88,3 +88,6 @@ def testing( size ):
     
     #this method will draw all of the above graphs with node colour red.
     makeAllFigures( "red" )
+
+if __name__ == "__main__":
+    testing( 5 )

@@ -97,3 +97,6 @@ def aStarSearch(graphToSearch, startNode, endNode):
 def testing():
     print "testing the search file"
     
+if __name__ == "__main__":
+    testing()
+    
