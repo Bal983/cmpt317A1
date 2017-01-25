@@ -3,6 +3,8 @@ import networkx as graphLibrary
 import matplotlib.pyplot as plot
 import random
 import math
+from car import Car
+from package import Package
 
 # Member Variables
 graphs = []                 #A list of graphs that the graphFile manages
@@ -59,23 +61,28 @@ def drawGraph( graph, colour):
 
 #given a graph, a number of garages and a number of packages, we will generate a number of points.
 #note: it will generate points such that packagePickupNumber[location] is related to packageDropoffNumber[location]
-def createPoints( numberOfGarages, numberOfPackages, graph):
-    #defining empty lists for the three groups of values we want to return
-    garageNumbers = list()
-    packagePickupNumbers = list()
-    packageDropoffNumbers = list()
+def createObjects( numberOfGarages, numberOfPackages, graph):
+    #defining empty lists for the two groups of objects we want to return
+    carList = list()
+    packageList = list()
     
-    #generating random locations for the garage and the package
+    #generating x car objects with a random garage location
     for x in range( 0, numberOfGarages ):
-        garageNumbers.append( random.randrange(0, len(list(graph.nodes()))) )
+        garageLocation = random.randrange(0, len(list(graph.nodes())))
+        carList.append( Car(x, garageLocation) )
         
+    #generating x package objects with random pickup/dropoff locations
+    #limitation: pickup and dropoff location are never the same
     for x in range( 0, numberOfPackages ):
-        packagePickupNumbers.append( random.randrange( 0, len(list(graph.nodes())) ) )
-        packageDropoffNumbers.append( random.randrange( 0, len(list(graph.nodes())) ) )
-        while( packagePickupNumbers[x] == packageDropoffNumbers[x] ):
-            packageDropoffNumbers[x] = random.randrange( 0, len(list(graph.nodes())) )
+        pickupLocation = random.randrange( 0, len(list(graph.nodes())) )
+        dropoffLocation = random.randrange( 0, len(list(graph.nodes())) )
+        
+        while( pickupLocation == dropoffLocation ):
+            dropoffLocation = random.randrange( 0, len(list(graph.nodes())) )
+            
+        packageList.append( Package(x, pickupLocation, dropoffLocation) )
 
-    return [garageNumbers, packagePickupNumbers, packageDropoffNumbers]
+    return [carList, packageList]
 
 def removeRandomEdges( graph ):
     #put the code that removes random edges here.

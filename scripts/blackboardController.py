@@ -23,39 +23,51 @@ def main():
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             print len(list(currentGraph.nodes()))
 
-            numberOfCars = 1;       #if you want to generate more cars change this number
-            numberOfPackages = 2;   #if you want to generate more packages change this number
-            pointsList = graphImplementation.createPoints(numberOfCars, numberOfPackages, currentGraph)
+            numberOfCars = 1       #if you want to generate more cars change this number
+            numberOfPackages = 2   #if you want to generate more packages change this number
+            objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
 
             #after we get the integers, we have to get the specific nodes and tell the user
-            garageNodeNumbers = pointsList[0]
-            packagePickupNodeNumbers = pointsList[1]
-            packageDropoffNodeNumbers = pointsList[2]
-        
+            carList = objectList[0]
+            packageList = objectList[1]
+            
+            #logic for assigning packages to cars in a smart way will eventually go here
+            
+            #for now, simply give each car a package in no particular order until there are no packages left
+            while( len(packageList) != 0):
+                for x in range (0, len(carList)):
+                    if(len(packageList) != 0):
+                        carList[x].packageList.append(packageList.pop())
+                
+
             #creating empty lists, not needed but makes the code more readable
-            garageNodes = list()
-            packagePickupNodes = list()
-            packageDropoffNodes = list()
+            #garageNodes = list()
+            #packagePickupNodes = list()
+            #packageDropoffNodes = list()
         
             #now setting up these lists
-            for x in garageNodeNumbers:
-                garageNodes.append( list(currentGraph.nodes())[x] )
-            
-            for x in packagePickupNodeNumbers:
-                packagePickupNodes.append( list(currentGraph.nodes())[x] )
-            
-            for x in packageDropoffNodeNumbers:
-                packageDropoffNodes.append( list(currentGraph.nodes())[x] )
+            #for x in carList:
+            #    carList.append( list(currentGraph.nodes())[x] )
+            #
+            #for x in packagePickupNodeNumbers:
+            #    packagePickupNodes.append( list(currentGraph.nodes())[x] )
+            # 
+            #for x in packageDropoffNodeNumbers:
+            #    packageDropoffNodes.append( list(currentGraph.nodes())[x] )
         
-            print "Garage Locations: " + str(garageNodes)
-            print "Package Pickup Locations: " + str(packagePickupNodes)
-            print "Package Drop-off Locations: " + str(packageDropoffNodes)
+            #print "Garage Locations: " + str(garageNodes)
+            #print "Package Pickup Locations: " + str(packagePickupNodes)
+            #print "Package Drop-off Locations: " + str(packageDropoffNodes)
+            
+            for car in carList:
+                print "Car " + str(car.id) + " is now delivering its packages: " + str(car.packageList)
+                car.useDFS(currentGraph)
+            
+            #print "Doing a DFS search on the above locations, this will pick up and drop off the packages and then go home"
+            #car.useDFS(currentGraph, garageNodes, packagePickupNodes, packageDropoffNodes)
 
-            print "Doing a DFS search on the above locations, this will pick up and drop off the packages and then go home"
-            car.useDFS(currentGraph, garageNodes, packagePickupNodes, packageDropoffNodes)
-
-            print "Doing a BFS search on the above locations, this will pick up and drop off the packages and then go home"
-            car.useBFS(currentGraph, garageNodes, packagePickupNodes, packageDropoffNodes)
+            #print "Doing a BFS search on the above locations, this will pick up and drop off the packages and then go home"
+            #car.useBFS(currentGraph, garageNodes, packagePickupNodes, packageDropoffNodes)
         
     print "Done!"
     
