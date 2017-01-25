@@ -23,7 +23,7 @@ def main():
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             print len(list(currentGraph.nodes()))
 
-            numberOfCars = 2       #if you want to generate more cars change this number
+            numberOfCars = 1       #if you want to generate more cars change this number
             numberOfPackages = 2   #if you want to generate more packages change this number
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
 
