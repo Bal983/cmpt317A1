@@ -23,21 +23,23 @@ def main():
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             print len(list(currentGraph.nodes()))
 
-            numberOfCars = 1       #if you want to generate more cars change this number
+            numberOfCars = 2       #if you want to generate more cars change this number
             numberOfPackages = 2   #if you want to generate more packages change this number
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
 
             #after we get the integers, we have to get the specific nodes and tell the user
-            carList = objectList[0]
-            packageList = objectList[1]
+            cars = objectList[0]
+            packages = objectList[1]
             
             #logic for assigning packages to cars in a smart way will eventually go here
             
             #for now, simply give each car a package in no particular order until there are no packages left
-            while( len(packageList) != 0):
-                for x in range (0, len(carList)):
-                    if(len(packageList) != 0):
-                        carList[x].packageList.append(packageList.pop())
+            while packages:
+                for car in cars:
+                    if packages:
+                        car.packageList.append(packages.pop())
+                    else: 
+                        break
                 
 
             #creating empty lists, not needed but makes the code more readable
@@ -46,8 +48,8 @@ def main():
             #packageDropoffNodes = list()
         
             #now setting up these lists
-            #for x in carList:
-            #    carList.append( list(currentGraph.nodes())[x] )
+            #for x in cars:
+            #    cars.append( list(currentGraph.nodes())[x] )
             #
             #for x in packagePickupNodeNumbers:
             #    packagePickupNodes.append( list(currentGraph.nodes())[x] )
@@ -59,8 +61,8 @@ def main():
             #print "Package Pickup Locations: " + str(packagePickupNodes)
             #print "Package Drop-off Locations: " + str(packageDropoffNodes)
             
-            for car in carList:
-                print "Car " + str(car.id) + " is now delivering its packages: " + str(car.packageList)
+            for car in cars:
+                print "Car " + str(car.id) + " is now delivering its " + str(len(car.packageList)) + " packages"
                 car.useDFS(currentGraph)
             
             #print "Doing a DFS search on the above locations, this will pick up and drop off the packages and then go home"
