@@ -9,18 +9,17 @@ class Car:
     # garageLocation - the coordinates of the garage location i.e. where the car starts and ends its route
     # packageList - a list of packages for the car to pick up and deliver
     # currentLocation - the coordinates where the car currently is, initially at the garage
-    def __init__(self, identifier, garageLocation, packageList=list()):
+    def __init__(self, identifier, garageLocation):
         self.identifier = identifier
         self.garageLocation = garageLocation
-        self.packageList = packageList 
+        self.packageList = [] 
         self.currentLocation = garageLocation
     
     # _________________methods_______________
     # given a map (graph) to search
         # find each package in the list and then deliver it.
         # Then go home.
-        # note:
-        # Uses the Depth first search algorithm with basic heuristics
+        # note: Uses the Depth first search algorithm with basic heuristics
     def useDFS(self, graphToSearch):
         for package in self.packageList:
             print "------------------------------------------------------------"
@@ -45,23 +44,29 @@ class Car:
         
     # given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
     # deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics
-    def useBFS(self, graphToSearch, garageNode, packagePickupNodes, packageDropoffNodes):
-        # calling BFS on the graph
-        currentLocation = garageNode[0]
-    
-        for x in range (0, len(packagePickupNodes)):
+    def useBFS(self, graphToSearch):
+        for package in self.packageList:
             print "------------------------------------------------------------"
-            print "Package number " + str(x)
+            print "working with package id " + str(package.identifier)
+            print "\tPackage has pickpup point: " + str(package.pickupLocation)
+            print "\tPackage has dropoff point: " + str(package.dropoffLocation)
+            print
             
             # the first call gets a package
-            currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, packagePickupNodes[x])
+            print "getting the package"
+            self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
+            
+            print
             
             # the second call delivers that package
-            currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, packageDropoffNodes[x])
+            print "delivering the package"
+            self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
     
         # this final call goes home
+        print
+        print "------------------------------------------------------------"
         print "Done, going home!"
-        currentLocation = search.breadthFirstSearch(graphToSearch, currentLocation, garageNode)
+        self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
     
     def useAStar(self, graphToSearch, garageNode, packagePickupNodes, packageDropoffNodes):
         # calling A* on the graph

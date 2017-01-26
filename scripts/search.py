@@ -4,6 +4,7 @@ from collections import deque
 from test.test_threaded_import import done
 
 #functions
+
 #depreciated function
 def depthFirstSearch(graphToSearch, startNode, endNode):
     print "------------------------------------------------------------"
@@ -48,6 +49,10 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
     return currentNode
 
 #as the function name suggests, this is the revised DFS
+
+#improved depth first search that makes use of sets, should be no more efficient, but the bug doesn't appear until much
+#large sizes of the graph.
+
 def depthFirstSearchRevised(graphToSearch, startNode, endNode):
     print("Revised DFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
@@ -57,27 +62,33 @@ def depthFirstSearchRevised(graphToSearch, startNode, endNode):
     visited, stack = set(), [startNode]
     counter = 0
     
+    currentNode = startNode
+    
     while stack:
         counter += 1
         
         #the vertex is now the top item of the stack
-        vertex = stack.pop()
+        currentNode = stack.pop()
         
         #neighbors is a set of all the neighbors of the current node
-        neighbors = set( graphLibrary.all_neighbors(graphToSearch, vertex) )
+        neighbors = set( graphLibrary.all_neighbors(graphToSearch, currentNode) )
         
         #if the endnode is in the neighbors, we "move" there instantly and abandon the rest of the algorithm
         if endNode in neighbors:
-            print "Number of nodes explored: " + str(counter);
-            return endNode
+            counter += 1
+            currentNode = endNode
+            break
         
         #otherwise, we have to continue searching
-        if vertex not in visited:
-            visited.add(vertex)
+        if currentNode not in visited:
+            visited.add(currentNode)
             stack.extend(neighbors - visited)
+    
+    print "Number of nodes explored: " + str(counter);
+    return currentNode
             
 
-
+#depreciated function
 def breadthFirstSearch(graphToSearch, startNode, endNode):
     print "------------------------------------------------------------"
     print("BFS called");
@@ -121,6 +132,38 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
     print "Number of Nodes explored: " + str(counter);
     print
     return currentNode
+
+def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
+    print("Revised BFS called");
+    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    
+    #we use sets instead of lists so we don't have to use our own code to compare the neighbors list to the visited list
+    #both sets start by containing the startNode
+    visited, queue = set(), [startNode]
+    counter = 0
+    currentNode = startNode
+    
+    while queue:
+        print "called"
+        currentNode = queue.pop(0)
+        counter += 1
+        
+        neighbors = set( graphLibrary.all_neighbors(graphToSearch, currentNode) )
+        
+        #if the endnode is in the neighbors, we "move" there instantly and abandon the rest of the algorithm
+        if endNode in neighbors:
+            counter += 1
+            currentNode = endNode
+            break
+        
+        #otherwise, we have to continue searching.
+        if currentNode not in visited:
+            visited.add( currentNode )
+            queue.extend(neighbors - visited)
+    
+    print "Number of nodes explored: " + str(counter);
+    return currentNode
+            
 
 def aStarSearch(graphToSearch, startNode, endNode):
     print "------------------------------------------------------------"

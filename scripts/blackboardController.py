@@ -10,11 +10,8 @@ def testing():
 
 def main():
     #Generating a list of graphs to show
-    size = 200
+    size = 10         #note, sizes over about 200 start to get slow on Bryton's computer.
     graphImplementation.makeGraphList( size )
-    
-    if ( size <= 10):
-        graphImplementation.makeAllFigures( "White" )
 
     #for each graph we generated, we set up random locations and then get those packages.
     #Note: objectList is a list of two lists formatted as follows:
@@ -23,10 +20,9 @@ def main():
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-            print len(list(currentGraph.nodes()))
 
             numberOfCars = 1       #if you want to generate more cars change this number
-            numberOfPackages = 2   #if you want to generate more packages change this number
+            numberOfPackages = 1   #if you want to generate more packages change this number
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
 
             #after we get the integers, we have to get the specific nodes and tell the user
@@ -34,6 +30,7 @@ def main():
             packages = objectList[1]
             
             #logic for assigning packages to cars in a smart way will eventually go here
+            
             
             #for now, simply give each car a package in no particular order until there are no packages left
             while packages:
@@ -45,12 +42,16 @@ def main():
             
             for car in cars:
                 print "Car " + str(car.identifier) + " is now delivering its " + str(len(car.packageList)) + " packages"
-                car.useDFS(currentGraph)
+                print "\tGarage Location: " + str(car.currentLocation)
+                car.useBFS(currentGraph)
                 print
                 print "Car " + str(car.identifier) + " is now done delivering its " + str(len(car.packageList)) + " packages"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
     print "Done!"
+    
+    if ( size <= 10):
+        graphImplementation.makeAllFigures( "White" )
     
 if __name__ == "__main__":
     main()
