@@ -1,9 +1,12 @@
 #libraries
 import networkx as graphLibrary
 from collections import deque
+from test.test_threaded_import import done
 
 #functions
+#depreciated function
 def depthFirstSearch(graphToSearch, startNode, endNode):
+    print "------------------------------------------------------------"
     print("DFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
 
@@ -28,8 +31,6 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
 
         #get the list of neighbors
         neighborsList = list(graphLibrary.all_neighbors(graphToSearch, currentNode))
-        #print "~~~~~"
-        #print neighborsList
         
         #the first bit of heuristical logic, if one of the current neighbors are the node we are looking for, we instantly move there
         if endNode in neighborsList:
@@ -46,7 +47,39 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
     print
     return currentNode
 
+#as the function name suggests, this is the revised DFS
+def depthFirstSearchRevised(graphToSearch, startNode, endNode):
+    print("Revised DFS called");
+    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    
+    #we use sets instead of lists so we don't have to use our own code to compare the neighbors list to the visited list
+    #both sets start by containing the startNode
+    visited, stack = set(), [startNode]
+    counter = 0
+    
+    while stack:
+        counter += 1
+        
+        #the vertex is now the top item of the stack
+        vertex = stack.pop()
+        
+        #neighbors is a set of all the neighbors of the current node
+        neighbors = set( graphLibrary.all_neighbors(graphToSearch, vertex) )
+        
+        #if the endnode is in the neighbors, we "move" there instantly and abandon the rest of the algorithm
+        if endNode in neighbors:
+            print "Number of nodes explored: " + str(counter);
+            return endNode
+        
+        #otherwise, we have to continue searching
+        if vertex not in visited:
+            visited.add(vertex)
+            stack.extend(neighbors - visited)
+            
+
+
 def breadthFirstSearch(graphToSearch, startNode, endNode):
+    print "------------------------------------------------------------"
     print("BFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
 
@@ -60,8 +93,6 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
 
     #the actual searching loop
     while (len(toVisitQueue) != 0):
-        #this print statement just prints the queue of nodes we need to visit for debugging purposes
-        #print "Stack of nodes to visit: " + str(toVisitQueue);
         counter += 1;
         
         #we are currently going to visit the first item in the queue
@@ -71,30 +102,34 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
         nodesVisited.append(currentNode);
     
         #nodes to add is simply a list of all of the neighbors of the current node
-        nodesToAdd = list(graphLibrary.all_neighbors(graphToSearch, currentNode));
+        neighborsList = list(graphLibrary.all_neighbors(graphToSearch, currentNode))
         
         #the first bit of heuristical logic, if one of the current neighbors are the node we are looking for, we instantly move there
-        if endNode in nodesToAdd:
+        if endNode in neighborsList:
             currentNode = endNode;
             nodesVisited.append(currentNode);
             break;
 
         #We still aren't at the location, but we don't want duplicates, so we check if anything in nodesVisited is a node we are considering to add, if we find a duplicate we remove it.
         for item in nodesVisited:
-            if item in nodesToAdd:
-                nodesToAdd.remove(item);
+            if item in neighborsList:
+                neighborsList.remove(item);
     
         #then we add all of the neighbors into the stack
-        toVisitQueue.extend(nodesToAdd);
+        toVisitQueue.extend(neighborsList);
 
     print "Number of Nodes explored: " + str(counter);
     print
     return currentNode
 
 def aStarSearch(graphToSearch, startNode, endNode):
+    print "------------------------------------------------------------"
     print("A* search called");
+    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
 def testing():
+    print
+    print "-------------------------"
     print "testing the search file"
     
 if __name__ == "__main__":

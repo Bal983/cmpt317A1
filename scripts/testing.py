@@ -2,14 +2,17 @@
 import blackboardController
 import graphImplementation
 import search
-import car
+from car import Car
+from package import Package
 
 #_______________functions______________
 def testAll():
     blackboardController.testing()
     graphImplementation.testing( 5 )
     search.testing()
-    car.testing()
+    Car.testing( Car( 0, None, None ) )
+    Package.testing( Package( 0, None, None ) )
+    
     
 if __name__ == "__main__":
     testAll()

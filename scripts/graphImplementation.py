@@ -89,6 +89,8 @@ def removeRandomEdges( graph ):
     print "removeRandomEdges was called"
 
 def testing( size ):
+    print
+    print "-------------------------"
     print "Testing the graphImplementation file"
     #testing the mackGraphList method, should create a defined amount of graphs of size size
     makeGraphList( size )
