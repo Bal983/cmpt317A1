@@ -1,7 +1,8 @@
 # _______________libraries_______________
 import search
+import threading
 
-class Car:
+class Car (threading.Thread):
 
     # _______________attributes______________
     
@@ -9,38 +10,41 @@ class Car:
     # garageLocation - the coordinates of the garage location i.e. where the car starts and ends its route
     # packageList - a list of packages for the car to pick up and deliver
     # currentLocation - the coordinates where the car currently is, initially at the garage
-    def __init__(self, identifier, garageLocation):
+    def __init__(self, identifier, garageLocation, graphToSearch):
+        threading.Thread.__init__(self)
         self.identifier = identifier
         self.garageLocation = garageLocation
         self.packageList = [] 
         self.currentLocation = garageLocation
-    
+        self.graphToSearch = graphToSearch
     # _________________methods_______________
     # given a map (graph) to search
         # find each package in the list and then deliver it.
         # Then go home.
         # note: Uses the Depth first search algorithm with basic heuristics
-    def useDFS(self, graphToSearch):
+    def run(self):
+        print "CAR " + str(self.identifier) + " START: " + str(len(self.packageList)) + " packages"
         for package in self.packageList:
-            print "------------------------------------------------------------"
-            print "working with package id " + str(package.identifier)
-            print
+            #print "------------------------------------------------------------"
+            #print "working with package id " + str(package.identifier)
+            #print
             
             # the first call gets a package
-            print "getting the package"
-            self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
+            print "CAR " + str(self.identifier) + ": Package ID " + str(package.identifier) + " picked up"
+            self.currentLocation = search.depthFirstSearchRevised(self.graphToSearch, self.currentLocation, package.pickupLocation)
             
-            print
+            #print
             
             # the second call delivers that package
-            print "delivering the package"
-            self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
+            print "CAR " + str(self.identifier) + ": Package ID " + str(package.identifier) + " dropped off"
+            self.currentLocation = search.depthFirstSearchRevised(self.graphToSearch, self.currentLocation, package.dropoffLocation)
     
         # this final call goes home
-        print
-        print "------------------------------------------------------------"
-        print "Done, going home!"
-        self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, self.garageLocation)
+        #print
+        #print "------------------------------------------------------------"
+        print "CAR " + str(self.identifier) + ": Driving Home"
+        self.currentLocation = search.depthFirstSearchRevised(self.graphToSearch, self.currentLocation, self.garageLocation)
+        print "CAR " + str(self.identifier) + " DONE"
         
     # given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
     # deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics

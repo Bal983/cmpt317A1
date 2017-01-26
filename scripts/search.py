@@ -54,8 +54,8 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
 #large sizes of the graph.
 
 def depthFirstSearchRevised(graphToSearch, startNode, endNode):
-    print("Revised DFS called");
-    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    #print("Revised DFS called");
+    #print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
     #we use sets instead of lists so we don't have to use our own code to compare the neighbors list to the visited list
     #both sets start by containing the startNode
@@ -84,7 +84,7 @@ def depthFirstSearchRevised(graphToSearch, startNode, endNode):
             visited.add(currentNode)
             stack.extend(neighbors - visited)
     
-    print "Number of nodes explored: " + str(counter);
+    #print "Number of nodes explored: " + str(counter);
     return currentNode
             
 

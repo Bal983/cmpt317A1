@@ -69,7 +69,7 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
     #generating x car objects with a random garage location
     for x in range( 0, numberOfGarages ):
         garageLocation = random.randrange(0, len(list(graph.nodes())))
-        carList.append( Car(x, list(graph.nodes())[garageLocation]) )
+        carList.append( Car(x, list(graph.nodes())[garageLocation],graph) )
         
     #generating x package objects with random pickup/dropoff locations
     #limitation: pickup and dropoff location are never the same
