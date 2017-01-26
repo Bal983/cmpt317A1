@@ -10,7 +10,7 @@ def testing():
 
 def main():
     #Generating a list of graphs to show
-    size = 10         #note, sizes over about 200 start to get slow on Bryton's computer.
+    size = 1000         #note, sizes over about 200 start to get slow on Bryton's computer.
     graphImplementation.makeGraphList( size )
 
     #for each graph we generated, we set up random locations and then get those packages.
@@ -21,8 +21,8 @@ def main():
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-            numberOfCars = 1       #if you want to generate more cars change this number
-            numberOfPackages = 1   #if you want to generate more packages change this number
+            numberOfCars = 10       #if you want to generate more cars change this number
+            numberOfPackages = 100   #if you want to generate more packages change this number
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
 
             #after we get the integers, we have to get the specific nodes and tell the user
@@ -43,7 +43,7 @@ def main():
             for car in cars:
                 print "Car " + str(car.identifier) + " is now delivering its " + str(len(car.packageList)) + " packages"
                 print "\tGarage Location: " + str(car.currentLocation)
-                car.useBFS(currentGraph)
+                car.useDFS(currentGraph)
                 print
                 print "Car " + str(car.identifier) + " is now done delivering its " + str(len(car.packageList)) + " packages"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

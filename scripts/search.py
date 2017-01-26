@@ -144,7 +144,6 @@ def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
     currentNode = startNode
     
     while queue:
-        print "called"
         currentNode = queue.pop(0)
         counter += 1
         
