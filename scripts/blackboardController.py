@@ -10,9 +10,9 @@ def testing():
     #print "testing the blackboardController"
 
 def main():
-    graphSize = 1000         #note, sizes over about 200 start to get slow on Bryton's computer.
-    numberOfCars = 10       #if you want to generate more cars change this number
-    numberOfPackages = 100   #if you want to generate more packages change this number
+    graphSize = 10         #note, sizes over about 200 start to get slow on Bryton's computer.
+    numberOfCars = 1       #if you want to generate more cars change this number
+    numberOfPackages = 1   #if you want to generate more packages change this number
     
     print "Number of cars (N): " + str(numberOfCars)
     print "Number of packages (K): " + str(numberOfPackages)
@@ -36,7 +36,8 @@ def main():
             packages = objectList[1]
             
             #logic for assigning packages to cars in a smart way will eventually go here
-            
+            #Note: package difficulty is being calculate at the point of package creation
+                #access it using package.difficulty
             
             #for now, simply give each car a package in no particular order until there are no packages left
             while packages:

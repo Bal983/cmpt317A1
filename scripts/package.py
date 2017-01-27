@@ -1,6 +1,5 @@
 #_______________imports_______________
 
-
 #_______________class_______________
 class Package:
     
@@ -13,7 +12,15 @@ class Package:
         self.identifier = identifier
         self.pickupLocation = pickupLocation
         self.dropoffLocation = dropoffLocation
+        self.calculateDifficulty( pickupLocation, dropoffLocation)        
         
+    def calculateDifficulty(self, pickupLocation, dropoffLocation ):
+        pickupLocationX = pickupLocation[0]
+        pickupLocationY = pickupLocation[1]
+        dropoffLocationX = dropoffLocation[0]
+        dropoffLocationY = dropoffLocation[1]
+        self.difficulty = abs(pickupLocationX - dropoffLocationX) + abs(pickupLocationY - dropoffLocationY)
+    
     def testing( self ):
         print
         print "-------------------------"
