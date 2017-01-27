@@ -22,24 +22,24 @@ class Car:
         # note: Uses the Depth first search algorithm with basic heuristics
     def useDFS(self, graphToSearch):
         for package in self.packageList:
-            #print "------------------------------------------------------------"
-            #print "working with package id " + str(package.identifier)
-            #print
+            print "------------------------------------------------------------"
+            print "working with package id " + str(package.identifier)
+            print
             
-            # the first call gets a package
-            #print "getting the package"
+            #the first call gets a package
+            print "getting the package"
+            print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
             self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
             
-            #print
+            print
             
-            # the second call delivers that package
-            #print "delivering the package"
+            #the second call delivers that package
+            print "delivering the package"
+            print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
             self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
-    
+
         # this final call goes home
-        #print
-        #print "------------------------------------------------------------"
-        #print "Done, going home!"
+        print "Car " + str(self.identifier) + " returning to garage"
         self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, self.garageLocation)
         
     # given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
