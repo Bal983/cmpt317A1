@@ -7,9 +7,9 @@ from test.test_threaded_import import done
 
 #depreciated function
 def depthFirstSearch(graphToSearch, startNode, endNode):
-    print "------------------------------------------------------------"
-    print("DFS called");
-    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    #print "------------------------------------------------------------"
+    #print("DFS called");
+    #print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
 
     #setting up the variables needed to do the search
     currentNode = startNode;
@@ -44,8 +44,8 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
             if node not in nodesVisited:
                 toVisitStack.append(node)
 
-    print "Number of nodes explored: " + str(counter);
-    print
+    #print "Number of nodes explored: " + str(counter);
+    #print
     return currentNode
 
 #as the function name suggests, this is the revised DFS
@@ -54,8 +54,8 @@ def depthFirstSearch(graphToSearch, startNode, endNode):
 #large sizes of the graph.
 
 def depthFirstSearchRevised(graphToSearch, startNode, endNode):
-    print("Revised DFS called");
-    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    #print("Revised DFS called");
+    #print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
     #we use sets instead of lists so we don't have to use our own code to compare the neighbors list to the visited list
     #both sets start by containing the startNode
@@ -84,15 +84,15 @@ def depthFirstSearchRevised(graphToSearch, startNode, endNode):
             visited.add(currentNode)
             stack.extend(neighbors - visited)
     
-    print "Number of nodes explored: " + str(counter);
+    #print "Number of nodes explored: " + str(counter);
     return currentNode
             
 
 #depreciated function
 def breadthFirstSearch(graphToSearch, startNode, endNode):
-    print "------------------------------------------------------------"
-    print("BFS called");
-    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    #print "------------------------------------------------------------"
+    #print("BFS called");
+    #print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
 
     #setting up the variables needed to do the search
     currentNode = startNode;
@@ -129,13 +129,13 @@ def breadthFirstSearch(graphToSearch, startNode, endNode):
         #then we add all of the neighbors into the stack
         toVisitQueue.extend(neighborsList);
 
-    print "Number of Nodes explored: " + str(counter);
-    print
+    #print "Number of Nodes explored: " + str(counter);
+    #print
     return currentNode
 
 def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
-    print("Revised BFS called");
-    print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
+    #print("Revised BFS called");
+    #print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
     #we use sets instead of lists so we don't have to use our own code to compare the neighbors list to the visited list
     #both sets start by containing the startNode
@@ -160,7 +160,7 @@ def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
             visited.add( currentNode )
             queue.extend(neighbors - visited)
     
-    print "Number of nodes explored: " + str(counter);
+    #print "Number of nodes explored: " + str(counter);
     return currentNode
             
 

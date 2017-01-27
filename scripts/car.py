@@ -22,50 +22,50 @@ class Car:
         # note: Uses the Depth first search algorithm with basic heuristics
     def useDFS(self, graphToSearch):
         for package in self.packageList:
-            print "------------------------------------------------------------"
-            print "working with package id " + str(package.identifier)
-            print
+            #print "------------------------------------------------------------"
+            #print "working with package id " + str(package.identifier)
+            #print
             
             # the first call gets a package
-            print "getting the package"
+            #print "getting the package"
             self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
             
-            print
+            #print
             
             # the second call delivers that package
-            print "delivering the package"
+            #print "delivering the package"
             self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
     
         # this final call goes home
-        print
-        print "------------------------------------------------------------"
-        print "Done, going home!"
+        #print
+        #print "------------------------------------------------------------"
+        #print "Done, going home!"
         self.currentLocation = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, self.garageLocation)
         
     # given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
     # deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics
     def useBFS(self, graphToSearch):
         for package in self.packageList:
-            print "------------------------------------------------------------"
-            print "working with package id " + str(package.identifier)
-            print "\tPackage has pickpup point: " + str(package.pickupLocation)
-            print "\tPackage has dropoff point: " + str(package.dropoffLocation)
-            print
+            #print "------------------------------------------------------------"
+            #print "working with package id " + str(package.identifier)
+            #print "\tPackage has pickpup point: " + str(package.pickupLocation)
+            #print "\tPackage has dropoff point: " + str(package.dropoffLocation)
+            #print
             
             # the first call gets a package
-            print "getting the package"
+            #print "getting the package"
             self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
             
-            print
+            #print
             
             # the second call delivers that package
-            print "delivering the package"
+            #print "delivering the package"
             self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
     
         # this final call goes home
-        print
-        print "------------------------------------------------------------"
-        print "Done, going home!"
+        #print
+        #print "------------------------------------------------------------"
+        #print "Done, going home!"
         self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
     
     def useAStar(self, graphToSearch, garageNode, packagePickupNodes, packageDropoffNodes):
@@ -73,8 +73,8 @@ class Car:
         currentLocation = garageNode[0]
     
         for x in range (0, len(packagePickupNodes)):
-            print "------------------------------------------------------------"
-            print "Package number " + str(x)
+            #print "------------------------------------------------------------"
+            #print "Package number " + str(x)
             
             # the first call gets a package
             currentLocation = search.aStarSearch(graphToSearch, currentLocation, packagePickupNodes[x])
@@ -83,13 +83,13 @@ class Car:
             currentLocation = search.aStarSearch(graphToSearch, currentLocation, packageDropoffNodes[x])
     
         # this final call goes home
-        print "Done, going home!"
+        #print "Done, going home!"
         currentLocation = search.aStarSearch(graphToSearch, currentLocation, garageNode)
         
     def testing( self ):
         print
-        print "-------------------------"
-        print "testing the car file"
+        #print "-------------------------"
+        ##print "testing the car file"
         
     if __name__ == "__main__":
         testing( None )

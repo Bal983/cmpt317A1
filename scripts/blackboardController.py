@@ -5,8 +5,9 @@ import graphImplementation
 #_______________functions_______________
 def testing():
     print
-    print "-------------------------"
-    print "testing the blackboardController"
+    ##print
+    #print "-------------------------"
+    #print "testing the blackboardController"
 
 def main():
     #Generating a list of graphs to show
@@ -19,7 +20,7 @@ def main():
         #packages: the list of package objects, each object knows its drop off/pickup locations
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
-            print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            #print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
             numberOfCars = 10       #if you want to generate more cars change this number
             numberOfPackages = 100   #if you want to generate more packages change this number
@@ -41,14 +42,14 @@ def main():
                         break
             
             for car in cars:
-                print "Car " + str(car.identifier) + " is now delivering its " + str(len(car.packageList)) + " packages"
-                print "\tGarage Location: " + str(car.currentLocation)
+                #print "Car " + str(car.identifier) + " is now delivering its " + str(len(car.packageList)) + " packages"
+                #print "\tGarage Location: " + str(car.currentLocation)
                 car.useDFS(currentGraph)
-                print
-                print "Car " + str(car.identifier) + " is now done delivering its " + str(len(car.packageList)) + " packages"
-                print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                #print
+                #print "Car " + str(car.identifier) + " is now done delivering its " + str(len(car.packageList)) + " packages"
+                #print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-    print "Done!"
+    #print "Done!"
     
     if ( size <= 10):
         graphImplementation.makeAllFigures( "White" )

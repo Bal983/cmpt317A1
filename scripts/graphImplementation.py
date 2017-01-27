@@ -15,23 +15,23 @@ def makeGraphList( size ):
     #add more functions here if we want to test with a longer list of graphs.
     createGridGraph ( size )
     
-    #after we generate all the graphs, print all of the stats
+    #after we generate all the graphs, #print all of the stats
     for graph in graphs:
         printGraphStats( graph )      
     
 #a grid graph by default is such that each node has an edge between each coordinate neighbor.
 #technical the graphs can be size n by m, but n by n is more visually pleasing and doesn't take away from the searches.
 def createGridGraph ( size ):
-    print "Forming a grid graph of size " + str(size) + "."
+    #print "Forming a grid graph of size " + str(size) + "."
     G = graphLibrary.grid_2d_graph(size, size, periodic=False, create_using=None)
-    print "Here's the stats of the grid graph:"
+    #print "Here's the stats of the grid graph:"
     graphs.append(G)
 
-#given a graph it will use the networkx features to print the stats of a graph, for testing purposes
+#given a graph it will use the networkx features to #print the stats of a graph, for testing purposes
 def printGraphStats( toPrint ):
     print ("Standard library stats:")
-    print (graphLibrary.info(toPrint))
-    print
+    #print (graphLibrary.info(toPrint))
+    #print
 
 #for each graph in the graphs[] list, we create a window for it and call drawGraph.
 def makeAllFigures( color ):
