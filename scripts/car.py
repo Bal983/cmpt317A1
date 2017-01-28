@@ -68,23 +68,25 @@ class Car:
         #print "Done, going home!"
         self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
     
-    def useAStar(self, graphToSearch, garageNode, packagePickupNodes, packageDropoffNodes):
-        # calling A* on the graph
-        currentLocation = garageNode[0]
-    
-        for x in range (0, len(packagePickupNodes)):
-            #print "------------------------------------------------------------"
-            #print "Package number " + str(x)
-            
+    def useAStar(self, graphToSearch):
+
+        for package in self.packageList:
+
             # the first call gets a package
-            currentLocation = search.aStarSearch(graphToSearch, currentLocation, packagePickupNodes[x])
-            
+            print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
+            print("NONE?")
+            print(self.currentLocation)
+            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
+
+            print
+
             # the second call delivers that package
-            currentLocation = search.aStarSearch(graphToSearch, currentLocation, packageDropoffNodes[x])
-    
+            print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
+            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
+
         # this final call goes home
-        #print "Done, going home!"
-        currentLocation = search.aStarSearch(graphToSearch, currentLocation, garageNode)
+            print "Car " + str(self.identifier) + " returning to garage"
+            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
         
     def testing( self ):
         print
