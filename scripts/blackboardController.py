@@ -83,7 +83,7 @@ def main():
     sys.stdout.write(str(numberOfGraphs) + "\t")
     sys.stdout.write("Arbitrary" + "\t")                                    
     sys.stdout.write("A* Search" + "\t")                                    
-    sys.stdout.write(str(endTime - startTime) + "s\t")                      
+    sys.stdout.write(str(endTime - startTime) + "\t")                      
     sys.stdout.write(str(grandTotal) + "\t")
     print
     print "=========================================================================="
