@@ -48,13 +48,14 @@ def main():
             assignPackages(currentGraph, cars, packages)
             print "Done!"
             
-            # Initialize timer
-            grandTotal = 0
-            startTime = time.time()
             
             for car in cars:
                 print car.totalDifficulty
                 print len(car.packageList)
+            
+            # Initialize timer
+            grandTotal = 0
+            startTime = time.time()
             
             # Call a search method for each car on the map
             for car in cars:
@@ -100,77 +101,30 @@ def assignPackages( graph, CARS, PACKAGES):
     #step one, sort the list of packages based on their difficulties    
     minHeap = []
     for package in PACKAGES:
-        heapq.heappush(minHeap, (package.difficulty, package))
+        heapq.heappush(minHeap, (-1 * package.difficulty, package))
         
     #note, in this case, the gScores will be the difficulty from any car at its current position to the package pickup location
     #the heuristic is simply the difficulty rating of the package, which is calculated at the time of package construction
     #so the fScore will be the difficulty to deliver the package + the difficulty to get to the package.
 
+    difficultyPerCar = dict()   
+
     while minHeap:
         currentNode = heapq.heappop(minHeap)    #note, current node will be a tuple formated (package difficulty, package)
 
-        difficultyPerCar = dict()   #creating this variable here so that we can reset the dictionary for each package
+        difficultyPerCar.clear()   #ensuring that the dictionary is cleared
         #this loop will calculate the current gScore for every car
         for car in CARS:
             difficultyPerCar[car] = getDifficulty(car, currentNode[1]) + car.totalDifficulty
-            
+        
         bestCost = min(difficultyPerCar.items(), key=lambda x: x[1])
-
+        
         bestCost[0].packageList.append(currentNode[1])
         bestCost[0].totalDifficulty += difficultyPerCar[bestCost[0]]
+        
+        #print bestCost[0].totalDifficulty
         #now we need to assign the package to the car with the smallest fScore that also has the lowest currentDifficulty
-            
-    '''
 
-    # Costs to reach particular nodes
-    gScores = dict()            #the score to get to that place from your starting location
-    heuristicScores = dict()    #the score of the heuristic
-    fScores = dict()            #the heuristic score added onto the gScore
-    
-    #Note: heuristicScores[node] is just fScore[node] - gScore[node]
-    #if we run into memory issues, one thing we might be able to do is eliminate the heursticScores map
-    #and pass around both the fScores and the gScores map
-    
-    fScores[startNode] = heuristic(startNode, endNode)
-    heuristicScores[startNode] = fScores[startNode]
-    gScores[startNode] = 0
-
-    while openSet:
-        # Current node is the best scoring node in the fScore dictionary
-        currentNode = getBestNode(minHeap, heuristicScores)[1]
-                
-        if(currentNode == endNode):
-            return reconstructPath(cameFromMap , currentNode)
-        
-        openSet.remove(currentNode)
-        closedSet.add(currentNode)
-        
-        neighbors = set(graphLibrary.all_neighbors(graphToSearch, currentNode))
-        
-        # Check for unvisited neighbors
-        for neighbor in neighbors:            
-            if(neighbor in closedSet):
-                continue
-            
-            ##### Hardcoded 1 cost for any edge for now but can add a cost function easily
-            neighborScore = gScores[currentNode] + 1
-            
-            # add the node to the open list if not already in
-            if(neighbor not in openSet):
-                openSet.add(neighbor)
-
-            # # If this path to the neighbor isn't better than the known one, skip
-            elif neighborScore >= gScores[neighbor]:
-                continue
-
-            cameFromMap[neighbor] = currentNode
-            gScores[neighbor] = neighborScore #the cost that we calculated from this node is the cheapest
-            heuristicScores[neighbor] = heuristic(neighbor , endNode)
-            neighborFScore = neighborScore + heuristicScores[neighbor]
-            fScores[neighbor] = neighborFScore
-            heapq.heappush(minHeap, (neighborFScore, neighbor))
-    '''
-    # For now, just assign the packages in an arbitrary way
 def getDifficulty(car, package):
     if(len(car.packageList) == 0):
         return abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])
