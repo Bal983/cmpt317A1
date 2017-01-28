@@ -6,6 +6,7 @@ import sys
 from collections import deque
 from test.test_threaded_import import done
 
+
 # functions
 def depthFirstSearchRevised(graphToSearch, startNode, endNode):
     print "------------------------------------------------------------"

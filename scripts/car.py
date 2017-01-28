@@ -55,7 +55,7 @@ class Car:
         self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
     
     def useAStar(self, graphToSearch):
-
+        totalTraveled = 0
         for package in self.packageList:
 
             # the first call gets a package
@@ -63,6 +63,7 @@ class Car:
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
             print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.pickupLocation
+            totalTraveled += len(pathTaken)
             print
 
             # the second call delivers that package
@@ -70,6 +71,7 @@ class Car:
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
             print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.dropoffLocation
+            totalTraveled += len(pathTaken)
             print
 
         # this final call goes home
@@ -77,6 +79,9 @@ class Car:
         pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
         print "Path length was : " + str(len(pathTaken))
         self.currentLocation = self.garageLocation
+        totalTraveled += len(pathTaken)
+        
+        return totalTraveled
         
     def testing( self ):
         print

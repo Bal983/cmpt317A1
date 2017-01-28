@@ -1,6 +1,7 @@
 #_______________libraries_______________
 import car
 import graphImplementation
+import time
 
 #_______________functions_______________
 def testing():
@@ -37,13 +38,20 @@ def main():
             #for now, simply give each car a package in no particular order until there are no packages left
             assignPackages(currentGraph, cars, packages)
             
+            grandTotal = 0
+            
+            startTime = time.time()
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
-                car.useAStar(currentGraph)
+                grandTotal += car.useAStar(currentGraph)
                 print
                 print "CAR " + str(car.identifier) + " FINISHED"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            endTime = time.time()
+
+            print "The grand total (total path lengths) was: " + str(grandTotal)
+            print "\tAnd the total real time taken was: " + str(endTime - startTime)
 
     print "All packages delivered!"
     
