@@ -1,5 +1,8 @@
 # libraries
 import networkx as graphLibrary
+import heapq
+import numpy
+import sys
 from collections import deque
 from test.test_threaded_import import done
 

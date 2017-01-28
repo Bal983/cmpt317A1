@@ -16,8 +16,8 @@ def makeGraphList( size ):
     createGridGraph ( size )
     
     #after we generate all the graphs, #print all of the stats
-    for graph in graphs:
-        printGraphStats( graph )      
+    #for graph in graphs:
+    #    printGraphStats( graph )      
     
 #a grid graph by default is such that each node has an edge between each coordinate neighbor.
 #technical the graphs can be size n by m, but n by n is more visually pleasing and doesn't take away from the searches.
@@ -28,10 +28,11 @@ def createGridGraph ( size ):
     graphs.append(G)
 
 #given a graph it will use the networkx features to #print the stats of a graph, for testing purposes
-def printGraphStats( toPrint ):
-    print ("Standard library stats:")
+#def printGraphStats( toPrint ):
+    #print ("Standard library stats:")
     #print (graphLibrary.info(toPrint))
     #print
+    
 
 #for each graph in the graphs[] list, we create a window for it and call drawGraph.
 def makeAllFigures( color ):
@@ -68,19 +69,22 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
     
     #generating x car objects with a random garage location
     for x in range( 0, numberOfGarages ):
-        garageLocation = random.randrange(0, len(list(graph.nodes())))
+        maxRange = len(list(graph.nodes()))
+        garageLocation = random.randrange(0, maxRange)
         carList.append( Car(x, list(graph.nodes())[garageLocation]) )
+        #print "Car " + str(x) + " has been created"
         
     #generating x package objects with random pickup/dropoff locations
     #limitation: pickup and dropoff location are never the same
     for x in range( 0, numberOfPackages ):
-        pickupLocation = random.randrange( 0, len(list(graph.nodes())) )
-        dropoffLocation = random.randrange( 0, len(list(graph.nodes())) )
+        pickupLocation = random.randrange( 0, maxRange )
+        dropoffLocation = random.randrange( 0, maxRange )
         
         while( pickupLocation == dropoffLocation ):
-            dropoffLocation = random.randrange( 0, len(list(graph.nodes())) )
+            dropoffLocation = random.randrange( 0, maxRange )
             
         packageList.append( Package(x, list(graph.nodes())[pickupLocation], list(graph.nodes())[dropoffLocation]) )
+        #print "Package " + str(x) + " has been created"
 
     return [carList, packageList]
 

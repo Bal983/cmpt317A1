@@ -10,9 +10,9 @@ def testing():
     #print "testing the blackboardController"
 
 def main():
-    graphSize = 10         #note, sizes over about 200 start to get slow on Bryton's computer.
-    numberOfCars = 1       #if you want to generate more cars change this number
-    numberOfPackages = 1   #if you want to generate more packages change this number
+    graphSize = 1000         #note, sizes over about 200 start to get slow on Bryton's computer.
+    numberOfCars = 50       #if you want to generate more cars change this number
+    numberOfPackages = 100   #if you want to generate more packages change this number
     
     print "Number of cars (N): " + str(numberOfCars)
     print "Number of packages (K): " + str(numberOfPackages)
@@ -20,6 +20,7 @@ def main():
     #Generating a list of graphs to show
     
     graphImplementation.makeGraphList( graphSize )
+    print "Graph has been created"
 
     #for each graph we generated, we set up random locations and then get those packages.
     #Note: objectList is a list of two lists formatted as follows:
@@ -30,6 +31,7 @@ def main():
             #print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
+            print "Objects created"
 
             #after we get the integers, we have to get the specific nodes and tell the user
             cars = objectList[0]
@@ -50,7 +52,7 @@ def main():
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
-                car.useDFS(currentGraph)
+                car.useAStar(currentGraph)
                 print
                 print "CAR " + str(car.identifier) + " FINISHED"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

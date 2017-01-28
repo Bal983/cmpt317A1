@@ -74,19 +74,20 @@ class Car:
 
             # the first call gets a package
             print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
-            print("NONE?")
             print(self.currentLocation)
-            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
-
+            pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
+            self.currentLocation = package.pickupLocation
             print
 
             # the second call delivers that package
             print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
-            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
+            pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
+            self.currentLocation = package.dropoffLocation
 
         # this final call goes home
             print "Car " + str(self.identifier) + " returning to garage"
-            self.currentLocation = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
+            pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
+            self.currentLocation = self.garageLocation
         
     def testing( self ):
         print
