@@ -2,7 +2,6 @@
 import search
 
 class Car:
-
     # _______________attributes______________
     
     # identifier - a numeric identifier for the car
@@ -46,26 +45,13 @@ class Car:
     # deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics
     def useBFS(self, graphToSearch):
         for package in self.packageList:
-            #print "------------------------------------------------------------"
-            #print "working with package id " + str(package.identifier)
-            #print "\tPackage has pickpup point: " + str(package.pickupLocation)
-            #print "\tPackage has dropoff point: " + str(package.dropoffLocation)
-            #print
-            
             # the first call gets a package
-            #print "getting the package"
             self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
-            
-            #print
-            
+
             # the second call delivers that package
-            #print "delivering the package"
             self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
     
         # this final call goes home
-        #print
-        #print "------------------------------------------------------------"
-        #print "Done, going home!"
         self.currentLocation = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
     
     def useAStar(self, graphToSearch):
@@ -74,20 +60,23 @@ class Car:
 
             # the first call gets a package
             print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
-            print(self.currentLocation)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
+            print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.pickupLocation
             print
 
             # the second call delivers that package
             print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
+            print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.dropoffLocation
+            print
 
         # this final call goes home
-            print "Car " + str(self.identifier) + " returning to garage"
-            pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
-            self.currentLocation = self.garageLocation
+        print "Car " + str(self.identifier) + " returning to garage"
+        pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
+        print "Path length was : " + str(len(pathTaken))
+        self.currentLocation = self.garageLocation
         
     def testing( self ):
         print
