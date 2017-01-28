@@ -23,22 +23,61 @@ import random
 def minimumSpanningTree(G):
 
     print "Making a minimum spanning tree."
-    trim(G , 1.0 , 1.0)
+    reduceGraph(G , 1.0 , 1.0)
     print "Remaining edges"
-def gatherLegalSample(graph, reductionFactor, minimumDegree):
+# reduces the connected of a graph by selecting a percentage of the nodes and destroying
+# the edges if a minimum degree is maintained
+# reductionFactor :float in (0.0 , 1.0 )
+# minimumDegree   :int in [0 , inf)
+def reduceGraph(graph, reductionFactor, minimumDegree):
+    print "Trimming " + str(reductionFactor * 100) + "% of the nodes in " + str(G)
+    print "Minimum Degree of " + str(minimumDegree) + " will be preserved."
+    nx.info (graph)
     originalNodes = graph.nodes()
+    # Take a random sample of the nodes according to the parameters
     sample = random.sample(originalNodes, int(reductionFactor * len(originalNodes)))
+    # Remove all edges that don't break the degree rule
+    edgeCountOrig = len(G.edges())
+    print "Starting edge count: " + str (edgeCountOrig)
     for node in sample:
         edges = G.edges(node)
         for edge in edges:
             valid = G.degree(edge[0]) > minimumDegree and G.degree(edge[1]) > minimumDegree
             if(valid):
-                G.remove_edge(edge[0],edge[1])
 
-def trim(G , minDegree , percent):
+                G.remove_edge(edge[0], edge[1])
+    edgeCountFinal = len(G.edges())
+    print "Starting edge count: " + str(edgeCountFinal)
+    print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
+# reduces the connected of a graph by selecting a percentage of the nodes and destroying
+# the edges if a minimum degree is maintained. Addition: pseudo-random defects compared to standard result
+# reductionFactor :float in (0.0 , 1.0 )
+# minimumDegree   :int in [0 , inf)
+# rand            :float in (0.0 , 1.0 ) : likelihood for a removal to be executed
+def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
+    print "Trimming " + str(reductionFactor * 100) + "% of the nodes in " + str(G)
+    print "Minimum Degree of " + str(minimumDegree) + " will be preserved."
+    nx.info (graph)
+    originalNodes = graph.nodes()
+    # Take a random sample of the nodes according to the parameters
+    sample = random.sample(originalNodes, int(reductionFactor * len(originalNodes)))
+    # Remove all edges that don't break the degree rule
+    edgeCountOrig = len(G.edges())
+    print "Starting edge count: " + str (edgeCountOrig)
+    for node in sample:
+        edges = G.edges(node)
+        for edge in edges:
+            valid = G.degree(edge[0]) > minimumDegree and G.degree(edge[1]) > minimumDegree
+            if(valid):
+
+                G.remove_edge(edge[0], edge[1])
+    edgeCountFinal = len(G.edges())
+    print "Starting edge count: " + str(edgeCountFinal)
+    print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
+
+'''
     # All edges retrieved from the graph
-    print("Graph has the following nodes: " + str (G.edges()))
-    print("Trimming " + str(percent) + " of the nodes" + str(G))
+
     sample = random.sample(G.nodes)
     print ()
 
@@ -50,7 +89,7 @@ def trim(G , minDegree , percent):
          print("List of edges attached to " + str(n) + " : " + str(neighbours))
 
 
-
+'''
 '''
 G=nx.grid_2d_graph(4,4)  #4x4 grid
 
@@ -87,11 +126,13 @@ nx.draw_networkx(G, pos=pos, labels=labels)
 pltGrid.axis('off')
 pltGrid.show()
 
-N = 10  # input("Enter dimensions for grid plot.")
-G = nx.grid_2d_graph(N, N)
-# trim(G , 2.0 , 1.0)
-gatherLegalSample(G, .5, 2)
 
+
+
+
+N = 15  # input("Enter dimensions for grid plot.")
+G = nx.grid_2d_graph(N, N)
+minimumSpanningTree(G)
 # minimumSpanningTree(G)
 
 pos = dict((n, n) for n in G.nodes())
