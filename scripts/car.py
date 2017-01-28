@@ -13,6 +13,7 @@ class Car:
         self.garageLocation = garageLocation
         self.packageList = [] 
         self.currentLocation = garageLocation
+        self.totalDifficulty = 0
     
     # _________________methods_______________
     # given a map (graph) to search

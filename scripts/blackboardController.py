@@ -4,6 +4,8 @@ import graphImplementation
 import time
 import datetime
 import sys
+import heapq
+import numpy
 
 #_______________functions_______________
 def testing():
@@ -50,6 +52,10 @@ def main():
             grandTotal = 0
             startTime = time.time()
             
+            for car in cars:
+                print car.totalDifficulty
+                print len(car.packageList)
+            
             # Call a search method for each car on the map
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
@@ -90,14 +96,31 @@ def main():
 
 #logic for assigning packages to cars in a smart way will eventually go here
 #Note: package difficulty is being calculated at the point of package creation access it using package.difficulty
-def assignPackages( graph, cars, packages):
+def assignPackages( graph, CARS, PACKAGES):
+    #step one, sort the list of packages based on their difficulties    
+    minHeap = []
+    for package in PACKAGES:
+        heapq.heappush(minHeap, (package.difficulty, package))
+        
+    #note, in this case, the gScores will be the difficulty from any car at its current position to the package pickup location
+    #the heuristic is simply the difficulty rating of the package, which is calculated at the time of package construction
+    #so the fScore will be the difficulty to deliver the package + the difficulty to get to the package.
 
+    while minHeap:
+        currentNode = heapq.heappop(minHeap)    #note, current node will be a tuple formated (package difficulty, package)
+
+        difficultyPerCar = dict()   #creating this variable here so that we can reset the dictionary for each package
+        #this loop will calculate the current gScore for every car
+        for car in CARS:
+            difficultyPerCar[car] = getDifficulty(car, currentNode[1]) + car.totalDifficulty
+            
+        bestCost = min(difficultyPerCar.items(), key=lambda x: x[1])
+
+        bestCost[0].packageList.append(currentNode[1])
+        bestCost[0].totalDifficulty += difficultyPerCar[bestCost[0]]
+        #now we need to assign the package to the car with the smallest fScore that also has the lowest currentDifficulty
+            
     '''
-    openSet , closedSet = set(), set()
-    openSet.add(startNode)
-    
-    # Stores the best way to get to a specific node
-    cameFromMap = dict()
 
     # Costs to reach particular nodes
     gScores = dict()            #the score to get to that place from your starting location
@@ -111,9 +134,6 @@ def assignPackages( graph, cars, packages):
     fScores[startNode] = heuristic(startNode, endNode)
     heuristicScores[startNode] = fScores[startNode]
     gScores[startNode] = 0
-
-    minHeap = []
-    heapq.heappush(minHeap, (sys.maxint, startNode))
 
     while openSet:
         # Current node is the best scoring node in the fScore dictionary
@@ -151,13 +171,11 @@ def assignPackages( graph, cars, packages):
             heapq.heappush(minHeap, (neighborFScore, neighbor))
     '''
     # For now, just assign the packages in an arbitrary way
-    while packages:
-        for car in cars:
-            if packages:
-                car.packageList.append(packages.pop())
-            else: 
-                break
-            
+def getDifficulty(car, package):
+    if(len(car.packageList) == 0):
+        return abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])
+    else:
+        return abs(car.packageList[-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(car.packageList[-1].dropoffLocation[1] - package.pickupLocation[1])
 
 if __name__ == "__main__":
     main()
