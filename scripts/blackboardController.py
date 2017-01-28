@@ -1,46 +1,56 @@
-#_______________libraries_______________
+#_______________libraries______________
 import car
 import graphImplementation
 import time
+import datetime
+import sys
 
 #_______________functions_______________
 def testing():
     print
 
 def main():
-    graphSize = 1000         #note, sizes over about 200 start to get slow on Bryton's computer.
-    numberOfCars = 10        #if you want to generate more cars change this number
-    numberOfPackages = 100   #if you want to generate more packages change this number
+    # These values change the performance and complexity of the problem
+    graphSize               = 1000          # graphSize^2 = M
+    numberOfCars            = 10            # N
+    numberOfPackages        = 100           # K
+    numberOfGraphs          = 1             # This will probably remain 1
     
-    print "Number of cars (N): " + str(numberOfCars)
-    print "Number of packages (K): " + str(numberOfPackages)
+    # These values are used for the test log entry - adjust before running tests
+    codeVersion             = "f5572fe"     # The first 7 characters of the run's GitHub revision code
+    teamMember              = "David"       # The name of the person running this test
+    packageAssignmentMethod = "Arbitrary"   # The method used to assign packages
+    pathfindingMethod       = "A* Search"   # The method used to pathfind
+    currentDatetime = datetime.datetime.now()
     
-    #Generating a list of graphs to show
-    
-    print "Creating graph....."
+    #Generating a list of graphs to use
+    sys.stdout.write("Creating graph........................")
     graphImplementation.makeGraphList( graphSize )
-    print "Graph has been created"
+    print "Done!"
 
     #for each graph we generated, we set up random locations and then get those packages.
-    #Note: objectList is a list of two lists formatted as follows:
-        #cars: the list of garage numbers that exist on the map
-        #packages: the list of package objects, each object knows its drop off/pickup locations
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
-            print "Creating Objects"
+            sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
-            print "Objects created"
-
-            #after we get the integers, we have to get the specific nodes and tell the user
+            print "Done!"
+            
+            #Note: objectList is a list of two lists formatted as follows:
+                #cars: the list of garage numbers that exist on the map
+                #packages: the list of package objects, each object knows its drop off/pickup locations
             cars = objectList[0]
             packages = objectList[1]
             
-            #for now, simply give each car a package in no particular order until there are no packages left
+            # Assign the packages to cars
+            sys.stdout.write("Assigning packages to cars............")
             assignPackages(currentGraph, cars, packages)
+            print "Done!"
             
+            # Initialize timer
             grandTotal = 0
-            
             startTime = time.time()
+            
+            # Call a search method for each car on the map
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
@@ -57,11 +67,30 @@ def main():
     
     if ( graphSize <= 10):
         graphImplementation.makeAllFigures( "White" )
+        
+    # Print diagnostic information at very end of simulation
+    print "=========================================================================="
+    print "EXECUTION LOG - COPY TO TESTING SPREADSHEET"
+    print "--------------------------------------------------------------------------"
+    
+    # Shouldn't need to alter these directly
+    sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t") 
+    sys.stdout.write(codeVersion + "\t")                              
+    sys.stdout.write(teamMember + "\t")                               
+    sys.stdout.write(str(numberOfCars) + "\t")                             
+    sys.stdout.write(str(numberOfPackages) + "\t")
+    sys.stdout.write(str(graphSize) + "\t")
+    sys.stdout.write(str(numberOfGraphs) + "\t")
+    sys.stdout.write("Arbitrary" + "\t")                                    
+    sys.stdout.write("A* Search" + "\t")                                    
+    sys.stdout.write(str(endTime - startTime) + "s\t")                      
+    sys.stdout.write(str(grandTotal) + "\t")
+    print
+    print "=========================================================================="
 
 #logic for assigning packages to cars in a smart way will eventually go here
-#Note: package difficulty is being calculate at the point of package creation access it using package.difficulty
+#Note: package difficulty is being calculated at the point of package creation access it using package.difficulty
 def assignPackages( graph, cars, packages):
-    print "Assigning Packages"
 
     '''
     openSet , closedSet = set(), set()
@@ -121,12 +150,14 @@ def assignPackages( graph, cars, packages):
             fScores[neighbor] = neighborFScore
             heapq.heappush(minHeap, (neighborFScore, neighbor))
     '''
+    # For now, just assign the packages in an arbitrary way
     while packages:
         for car in cars:
             if packages:
                 car.packageList.append(packages.pop())
             else: 
                 break
+            
 
 if __name__ == "__main__":
     main()
