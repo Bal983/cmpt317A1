@@ -18,6 +18,13 @@ def main():
     numberOfPackages        = 100           # K
     numberOfGraphs          = 1             # This will probably remain 1
 
+    #Graph reduction settings
+    isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
+    performGraphReduction   = True          # The graph will perform the reduction algorithm
+    reductionFactor         = 0.5           # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
+    additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
+                                            # this makes the degree of selected nodes unlikely to have the same degree
+    ignoreChance            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
 
     # These values are used for the test log entry - adjust before running tests
     codeVersion             = "f5572fe"     # The first 7 characters of the run's GitHub revision code
