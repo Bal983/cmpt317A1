@@ -10,7 +10,6 @@ from Queue import PriorityQueue
 
 # functions
 def depthFirstSearchRevised(graphToSearch, startNode, endNode):
-    print "------------------------------------------------------------"
     print("Revised DFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
@@ -42,11 +41,9 @@ def depthFirstSearchRevised(graphToSearch, startNode, endNode):
             visited.add(currentNode)
             stack.extend(neighbors - visited)
     
-    print "Number of nodes explored: " + str(counter);
-    return currentNode
+    return (currentNode, counter)
 
 def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
-    print "------------------------------------------------------------"
     print("Revised BFS called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     
@@ -73,8 +70,7 @@ def breadthFirstSearchRevised(graphToSearch, startNode, endNode):
             visited.add(currentNode)
             queue.extend(neighbors - visited)
     
-    print "Number of nodes explored: " + str(counter);
-    return currentNode
+    return (currentNode, counter)
 
 def perfectWorldDistance(start, dest):
     if(start is None or dest is None):
@@ -85,7 +81,6 @@ def perfectWorldDistance(start, dest):
     return abs(xdiff) + abs(ydiff)
  
 def aStarSearch(graphToSearch, startNode, endNode, heuristic):
-    print "------------------------------------------------------------"
     print("A* search called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     print "Difficulty of this delivery is: " + str(heuristic(startNode, endNode))
@@ -182,4 +177,3 @@ def testing():
     
 if __name__ == "__main__":
     testing()
-    

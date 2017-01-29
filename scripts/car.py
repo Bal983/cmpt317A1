@@ -21,46 +21,76 @@ class Car:
         # Then go home.
         # note: Uses the Depth first search algorithm with basic heuristics
     def useDFS(self, graphToSearch):
+        totalTraveled = 0
         for package in self.packageList:
             # the first call gets a package
-            search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
-            self.currentLocation = package.pickupLocation
-            
-            # the second call delivers that package
-            search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
-            self.currentLocation = package.dropoffLocation
+            print "------------------------------------------------------------"
+            print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
+            returnValue = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
+            self.currentLocation = returnValue[0]
+            print "Path length was : " + str(returnValue[1])
+            totalTraveled += returnValue[1]
+            print
 
-    
+            # the second call delivers that package
+            print "------------------------------------------------------------"
+            print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
+            returnValue = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
+            self.currentLocation = returnValue[0]
+            print "Path length was : " + str(returnValue[1])
+            totalTraveled += returnValue[1]
+            print
+
         # this final call goes home
-        search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
-        self.currentLocation = self.garageLocation
+        print "------------------------------------------------------------"
+        print "Car " + str(self.identifier) + " returning to garage"
+        returnValue = search.depthFirstSearchRevised(graphToSearch, self.currentLocation, self.garageLocation)
+        self.currentLocation = returnValue[0]
+        print "Path length was : " + str(returnValue[1])
+        totalTraveled += returnValue[1]
+        print
         
-        return 0
+        return totalTraveled
         
     # given a garage location, a packagePickupNode and a packageDropoffNode, find the package, move to pick it up
     # deliver the package, and then go home. Uses the Breadth first search algorithm with no heuristics
     def useBFS(self, graphToSearch):
+        totalTraveled = 0
         for package in self.packageList:
             # the first call gets a package
-            search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
-            self.currentLocation = package.pickupLocation
-            
-            # the second call delivers that package
-            search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
-            self.currentLocation = package.dropoffLocation
+            print "------------------------------------------------------------"
+            print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
+            returnValue = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
+            self.currentLocation = returnValue[0]
+            print "Path length was : " + str(returnValue[1])
+            totalTraveled += returnValue[1]
+            print
 
-    
+            # the second call delivers that package
+            print "------------------------------------------------------------"
+            print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
+            returnValue = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.dropoffLocation)
+            self.currentLocation = returnValue[0]
+            print "Path length was : " + str(returnValue[1])
+            totalTraveled += returnValue[1]
+            print
+
         # this final call goes home
-        search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, package.pickupLocation)
-        self.currentLocation = self.garageLocation
+        print "------------------------------------------------------------"
+        print "Car " + str(self.identifier) + " returning to garage"
+        returnValue = search.breadthFirstSearchRevised(graphToSearch, self.currentLocation, self.garageLocation)
+        self.currentLocation = returnValue[0]
+        print "Path length was : " + str(returnValue[1])
+        totalTraveled += returnValue[1]
         
-        return 0
+        return totalTraveled
     
     def useAStar(self, graphToSearch):
         totalTraveled = 0
         for package in self.packageList:
 
             # the first call gets a package
+            print "------------------------------------------------------------"
             print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
             print "Path taken was : " + str(pathTaken)
@@ -70,6 +100,7 @@ class Car:
             print
 
             # the second call delivers that package
+            print "------------------------------------------------------------"
             print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
             print "Path taken was : " + str(pathTaken)
@@ -79,6 +110,7 @@ class Car:
             print
 
         # this final call goes home
+        print "------------------------------------------------------------"
         print "Car " + str(self.identifier) + " returning to garage"
         pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
         print "Path taken was : " + str(pathTaken)

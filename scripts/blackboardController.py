@@ -13,9 +13,9 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 30            # graphSize^2 = M
-    numberOfCars            = 3            # N
-    numberOfPackages        = 12           # K
+    graphSize               = 75            # graphSize^2 = M
+    numberOfCars            = 3             # N
+    numberOfPackages        = 12            # K
     numberOfGraphs          = 1             # This will probably remain 1
 
     #Graph reduction settings
@@ -35,10 +35,15 @@ def main():
     currentDatetime = datetime.datetime.now()
 
     #Generating a list of graphs to use
-    sys.stdout.write("Creating graph........................\n")
+    sys.stdout.write("Creating graph........................")
     graphImplementation.makeGraphList( graphSize )
     print "Done!"
+    for graph in graphImplementation.graphs:
+        print graphImplementation.printGraphStats(graph)
+        
+    print #handy statement just to add a newline
     
+    #Reducing all of the graphs by the above options
     sys.stdout.write("Reducing graph........................\n")
     for graph in graphImplementation.graphs:
         if(performGraphReduction):
@@ -48,8 +53,11 @@ def main():
             elif(additionalRandomness):
                 graphImplementation.reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor)
                 continue
-            graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
+            else:
+                graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
     print "Done!"
+    
+    print #handy statement just to add a newline
 
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:
@@ -57,6 +65,8 @@ def main():
             sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
             print "Done!"
+            print #handy statement just to add a newline
+
 
             #Note: objectList is a list of two lists formatted as follows:
                 #cars: the list of garage numbers that exist on the map
@@ -68,20 +78,18 @@ def main():
             sys.stdout.write("Assigning packages to cars............")
             assignPackages(currentGraph, cars, packages)
             print "Done!"
-
-            for car in cars:
-                print car.totalDifficulty
-                print len(car.packageList)
+            print #handy statement just to add a newline
 
             # Initialize timer
             grandTotal = 0
             startTime = time.time()
 
             # Call a search method for each car on the map
+            print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
-                grandTotal += car.useDFS(currentGraph)
+                grandTotal += car.useBFS(currentGraph)
                 print
                 print "CAR " + str(car.identifier) + " FINISHED"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -100,23 +108,42 @@ def main():
     print "EXECUTION LOG - COPY TO TESTING SPREADSHEET"
     print "--------------------------------------------------------------------------"
 
+    #adding a heading that shows what each thing is
+    sys.stdout.write("Time                \t")
+    sys.stdout.write("Code Version\t")
+    sys.stdout.write("Team Member\t")
+    sys.stdout.write("Cars\t")
+    sys.stdout.write("Packages\t")
+    sys.stdout.write("Graph Size\t")
+    sys.stdout.write("Graphs\t")
+    sys.stdout.write("Min Tree\t")
+    sys.stdout.write("Reduced?\t")
+    sys.stdout.write("Reduction Factor\t")
+    sys.stdout.write("Additional Random?\t")
+    sys.stdout.write("Random Factor\t")
+    sys.stdout.write("MinDegree\t")
+    sys.stdout.write("Assignment Method\t")
+    sys.stdout.write("Pathfinding Method\t")
+    sys.stdout.write("Total time\t     ")
+    sys.stdout.write("\"Gas\" Usage\n")  
+    
     # Shouldn't need to alter these directly
     sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t")
-    sys.stdout.write(codeVersion + "\t")
-    sys.stdout.write(teamMember + "\t")
+    sys.stdout.write(codeVersion + "\t        ")
+    sys.stdout.write(teamMember + "\t        ")
     sys.stdout.write(str(numberOfCars) + "\t")
-    sys.stdout.write(str(numberOfPackages) + "\t")
-    sys.stdout.write(str(graphSize) + "\t")
+    sys.stdout.write(str(numberOfPackages) + "\t        ")
+    sys.stdout.write(str(graphSize) + "\t        ")
     sys.stdout.write(str(numberOfGraphs) + "\t")
-    sys.stdout.write(str(isMinimumSpanningTree) + "\t")
-    sys.stdout.write(str(performGraphReduction) + "\t")
-    sys.stdout.write(str(reductionFactor) + "\t")
-    sys.stdout.write(str(additionalRandomness) + "\t")
-    sys.stdout.write(str(randomFactor) + "\t")
-    sys.stdout.write(str(minimumDegree) + "\t")
-    sys.stdout.write(packageAssignmentMethod + "\t")
-    sys.stdout.write(pathfindingMethod + "\t")
-    sys.stdout.write(str(endTime - startTime) + "\t")
+    sys.stdout.write(str(isMinimumSpanningTree) + "\t        ")
+    sys.stdout.write(str(performGraphReduction) + "\t        ")
+    sys.stdout.write(str(reductionFactor) + "\t                ")
+    sys.stdout.write(str(additionalRandomness) + "\t                ")
+    sys.stdout.write(str(randomFactor) + "\t        ")
+    sys.stdout.write(str(minimumDegree) + "\t        ")
+    sys.stdout.write(packageAssignmentMethod + "\t        ")
+    sys.stdout.write(pathfindingMethod + "\t        ")
+    sys.stdout.write(str(endTime - startTime) + "\t     ")
     sys.stdout.write(str(grandTotal) + "\t")
     
     print
