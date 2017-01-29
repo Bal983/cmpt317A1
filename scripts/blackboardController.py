@@ -4,8 +4,7 @@ import graphImplementation
 import time
 import datetime
 import sys
-import heapq
-import numpy
+import assignPackages
 
 #_______________functions_______________
 def testing():
@@ -13,9 +12,9 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 75            # graphSize^2 = M
+    graphSize               = 10            # graphSize^2 = M
     numberOfCars            = 3             # N
-    numberOfPackages        = 12            # K
+    numberOfPackages        = 5            # K
     numberOfGraphs          = 1             # This will probably remain 1
 
     #Graph reduction settings
@@ -76,7 +75,7 @@ def main():
 
             # Assign the packages to cars
             sys.stdout.write("Assigning packages to cars............")
-            assignPackages(currentGraph, cars, packages)
+            assignPackages.pseudoLogicalAssignment(currentGraph, cars, packages)
             print "Done!"
             print #handy statement just to add a newline
 
@@ -148,38 +147,6 @@ def main():
     
     print
     print "=========================================================================="
-
-#logic for assigning packages to cars in a smart way will eventually go here
-#Note: package difficulty is being calculated at the point of package creation access it using package.difficulty
-def assignPackages( graph, CARS, PACKAGES):
-    #step one, sort the list of packages based on their difficulties
-    minHeap = []
-    for package in PACKAGES:
-        heapq.heappush(minHeap, (-1 * package.difficulty, package))
-
-    #note, in this case, the gScores will be the difficulty from any car at its current position to the package pickup location
-    #the heuristic is simply the difficulty rating of the package, which is calculated at the time of package construction
-    #so the fScore will be the difficulty to deliver the package + the difficulty to get to the package.
-    difficultyPerCar = dict()
-
-    while minHeap:
-        currentNode = heapq.heappop(minHeap)    #note, current node will be a tuple formated (package difficulty, package)
-
-        difficultyPerCar.clear()   #ensuring that the dictionary is cleared
-        #this loop will calculate the current gScore for every car
-        for car in CARS:
-            difficultyPerCar[car] = getDifficulty(car, currentNode[1]) + car.totalDifficulty
-
-        bestCost = min(difficultyPerCar.items(), key=lambda x: x[1])
-
-        bestCost[0].packageList.append(currentNode[1])
-        bestCost[0].totalDifficulty += difficultyPerCar[bestCost[0]]
-
-def getDifficulty(car, package):
-    if(len(car.packageList) == 0):
-        return abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])
-    else:
-        return abs(car.packageList[-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(car.packageList[-1].dropoffLocation[1] - package.pickupLocation[1])
 
 if __name__ == "__main__":
     main()

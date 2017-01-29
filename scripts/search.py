@@ -91,9 +91,6 @@ def aStarSearch(graphToSearch, startNode, endNode, heuristic):
     # Costs to reach particular nodes
     gScores = dict()            #the score to get to that place from your starting location
     
-    #if we run into memory issues, one thing we might be able to do is eliminate the heursticScores map
-    #and pass around both the fScores and the gScores map
-    
     gScores[startNode] = 0
 
     openPriorityQueue = PriorityQueue()
