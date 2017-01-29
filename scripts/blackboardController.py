@@ -13,15 +13,15 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 10            # graphSize^2 = M
-    numberOfCars            = 1             # N
-    numberOfPackages        = 1             # K
+    graphSize               = 50            # graphSize^2 = M
+    numberOfCars            = 15             # N
+    numberOfPackages        = 100             # K
     numberOfGraphs          = 1             # This will probably remain 1
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
     performGraphReduction   = True          # The graph will perform the reduction algorithm
-    reductionFactor         = 0.5           # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
+    reductionFactor         = 1             # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
     additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
                                             # this makes the degree of selected nodes unlikely to have the same degree
     ignoreChance            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
@@ -35,13 +35,15 @@ def main():
     currentDatetime = datetime.datetime.now()
 
     #Generating a list of graphs to use
-    sys.stdout.write("Creating graph........................")
+    sys.stdout.write("Creating graph........................\n")
     graphImplementation.makeGraphList( graphSize )
     print "Done!"
     
-    sys.stdout.write("Reducing graph........................")
+    sys.stdout.write("Reducing graph........................\n")
     for graph in graphImplementation.graphs:
         graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
+        graphImplementation.printGraphStats( graph )
+        print "Done!"
 
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:

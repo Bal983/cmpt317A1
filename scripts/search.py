@@ -5,6 +5,7 @@ import numpy
 import sys
 from collections import deque
 from test.test_threaded_import import done
+from Queue import PriorityQueue
 
 
 # functions
@@ -88,39 +89,29 @@ def aStarSearch(graphToSearch, startNode, endNode, heuristic):
     print("A* search called");
     print "Start Node: " + str(startNode) + "; End Node: " + str(endNode);
     print "Difficulty of this delivery is: " + str(heuristic(startNode, endNode))
-
-    openSet , closedSet = set(), set()
-    openSet.add(startNode)
     
     # Stores the best way to get to a specific node
     cameFromMap = dict()
 
     # Costs to reach particular nodes
     gScores = dict()            #the score to get to that place from your starting location
-    heuristicScores = dict()    #the score of the heuristic
-    fScores = dict()            #the heuristic score added onto the gScore
     
-    #Note: heuristicScores[node] is just fScore[node] - gScore[node]
     #if we run into memory issues, one thing we might be able to do is eliminate the heursticScores map
     #and pass around both the fScores and the gScores map
     
-    fScores[startNode] = heuristic(startNode, endNode)
-    heuristicScores[startNode] = fScores[startNode]
     gScores[startNode] = 0
 
-    minHeap = []
-    heapq.heappush(minHeap, (sys.maxint, startNode))
+    openPriorityQueue = PriorityQueue()
+    closedSet = set()
+    openPriorityQueue._put((heuristic(startNode , endNode), startNode))
 
-    while openSet:
+    while openPriorityQueue:
         # Current node is the best scoring node in the fScore dictionary
-        currentNode = getBestNode(minHeap, heuristicScores)[1]
+        currentNode = getBestNode(openPriorityQueue, gScores)[1]
                 
         if(currentNode == endNode):
             return reconstructPath(cameFromMap , currentNode)
         
-        print currentNode
-        
-        openSet.remove(currentNode)
         closedSet.add(currentNode)
         
         neighbors = set(graphLibrary.all_neighbors(graphToSearch, currentNode))
@@ -130,28 +121,21 @@ def aStarSearch(graphToSearch, startNode, endNode, heuristic):
             if(neighbor in closedSet):
                 continue
             
-            ##### Hardcoded 1 cost for any edge for now but can add a cost function easily
+            # Hardcoded 1 cost for any edge for now but can add a cost function easily
             neighborScore = gScores[currentNode] + 1
             
-            # add the node to the open list if not already in
-            if(neighbor not in openSet):
-                openSet.add(neighbor)
+            if neighbor not in gScores or neighborScore < gScores[neighbor]:
+                gScores[neighbor] = neighborScore
+                openPriorityQueue._put((neighborScore + heuristic(neighbor , endNode), neighbor ))
+                cameFromMap[neighbor] = currentNode
 
-            # # If this path to the neighbor isn't better than the known one, skip
-            elif neighborScore >= gScores[neighbor]:
-                continue
-
-            cameFromMap[neighbor] = currentNode
-            gScores[neighbor] = neighborScore #the cost that we calculated from this node is the cheapest
-            heuristicScores[neighbor] = heuristic(neighbor , endNode)
-            neighborFScore = neighborScore + heuristicScores[neighbor]
-            fScores[neighbor] = neighborFScore
-            heapq.heappush(minHeap, (neighborFScore, neighbor))
-
-def getBestNode( minHeap, heuristicScores):
+def getBestNode( priorityQueue, gScores):
+    x = PriorityQueue()
+    x.get
+    
     #if there is one (or zero) items in the heap, there can't be any ties.
-    if(len(minHeap) <= 1 ):
-        return heapq.heappop(minHeap)
+    if(priorityQueue.qsize() <= 1 ):
+        return priorityQueue._get()
     
     tieNodes = []
     
@@ -159,23 +143,27 @@ def getBestNode( minHeap, heuristicScores):
     # the first element of the tuple is the f score and the second element is the node.
     
     #we know forsure we want the root of the heap, so we get that, and it is the best node
-    tieNodes.append(heapq.heappop(minHeap))
+    tieNodes.append(priorityQueue._get())
     bestNode = tieNodes[0]
     
-    #while we can peek at the heap and there are ties (with the fScores) in the heap
-    #we have to pop the tie elements off.
-    while(len(minHeap) >= 1 and minHeap[0][0] == tieNodes[0][0]):
-        tieNodes.append(heapq.heappop(minHeap))
+    #we have to pop elements off until we don't get a tie
+    while(priorityQueue.qsize() >= 1):
+        temp = priorityQueue._get()
+        if (temp[0] == tieNodes[0][0]):
+            tieNodes.append(temp)
+        else:
+            priorityQueue._put(temp)
+            break
        
     #now we search through the list of tied elements and find the one with the best utility score 
     for node in tieNodes:
-        if(heuristicScores[node[1]] < heuristicScores[bestNode[1]]):
+        if(node[0]-gScores[node[1]] < bestNode[0]-gScores[bestNode[1]]):
             bestNode = node
     
     #then we remove the best element from the list of ties, and re add the remaining elements to the heap.
     tieNodes.remove(bestNode)
     for node in tieNodes:
-        heapq.heappush(minHeap, (node[0], node[1]))
+        priorityQueue._put((node[0], node[1]))
 
     return bestNode
 
