@@ -13,9 +13,9 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 50            # graphSize^2 = M
-    numberOfCars            = 15             # N
-    numberOfPackages        = 100             # K
+    graphSize               = 30            # graphSize^2 = M
+    numberOfCars            = 3            # N
+    numberOfPackages        = 12           # K
     numberOfGraphs          = 1             # This will probably remain 1
 
     #Graph reduction settings
@@ -24,11 +24,11 @@ def main():
     reductionFactor         = 1             # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
     additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
                                             # this makes the degree of selected nodes unlikely to have the same degree
-    ignoreChance            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
+    randomFactor            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
     minimumDegree           = 2             # The algorithm will strive to have the minimum degree be 2
     
     # These values are used for the test log entry - adjust before running tests
-    codeVersion             = "832eabf"         # The first 7 characters of the run's GitHub revision code
+    codeVersion             = "5f85d88"         # The first 7 characters of the run's GitHub revision code
     teamMember              = "David"           # The name of the person running this test
     packageAssignmentMethod = "Pseudo-Logical"  # The method used to assign packages
     pathfindingMethod       = "A* Search"       # The method used to pathfind
@@ -41,9 +41,15 @@ def main():
     
     sys.stdout.write("Reducing graph........................\n")
     for graph in graphImplementation.graphs:
-        graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
-        graphImplementation.printGraphStats( graph )
-        print "Done!"
+        if(performGraphReduction):
+            if(isMinimumSpanningTree):
+                graphImplementation.minimumSpanningTree(graph)
+                continue
+            elif(additionalRandomness):
+                graphImplementation.reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor)
+                continue
+            graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
+    print "Done!"
 
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:
@@ -75,7 +81,7 @@ def main():
             for car in cars:
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
-                grandTotal += car.useAStar(currentGraph)
+                grandTotal += car.useDFS(currentGraph)
                 print
                 print "CAR " + str(car.identifier) + " FINISHED"
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -106,7 +112,7 @@ def main():
     sys.stdout.write(str(performGraphReduction) + "\t")
     sys.stdout.write(str(reductionFactor) + "\t")
     sys.stdout.write(str(additionalRandomness) + "\t")
-    sys.stdout.write(str(ignoreChance) + "\t")
+    sys.stdout.write(str(randomFactor) + "\t")
     sys.stdout.write(str(minimumDegree) + "\t")
     sys.stdout.write(packageAssignmentMethod + "\t")
     sys.stdout.write(pathfindingMethod + "\t")
