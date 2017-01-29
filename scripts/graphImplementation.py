@@ -118,6 +118,8 @@ def reduceGraph(graph, reductionFactor, minimumDegree):
             if(valid):
 
                 G.remove_edge(edge[0], edge[1])
+                if( not nx.is_connected(G)) :
+                    G.add_edge(edge[0],edge[1])
     edgeCountFinal = len(G.edges())
     print "Starting edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
@@ -143,6 +145,8 @@ def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
             if(valid):
 
                 G.remove_edge(edge[0], edge[1])
+                if( not nx.is_connected(G)) :
+                    G.add_edge(edge[0],edge[1])
     edgeCountFinal = len(G.edges())
     print "Starting edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
