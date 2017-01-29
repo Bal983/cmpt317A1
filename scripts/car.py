@@ -62,6 +62,7 @@ class Car:
             # the first call gets a package
             print "Car " + str(self.identifier) + " picked up package ID " + str(package.identifier)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.pickupLocation, search.perfectWorldDistance)
+            print "Path taken was : " + str(pathTaken)
             print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.pickupLocation
             totalTraveled += len(pathTaken)
@@ -70,6 +71,7 @@ class Car:
             # the second call delivers that package
             print "Car " + str(self.identifier) + " dropped off package ID " + str(package.identifier)
             pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, package.dropoffLocation, search.perfectWorldDistance)
+            print "Path taken was : " + str(pathTaken)
             print "Path length was : " + str(len(pathTaken))
             self.currentLocation = package.dropoffLocation
             totalTraveled += len(pathTaken)
@@ -78,6 +80,7 @@ class Car:
         # this final call goes home
         print "Car " + str(self.identifier) + " returning to garage"
         pathTaken = search.aStarSearch(graphToSearch, self.currentLocation, self.garageLocation, search.perfectWorldDistance)
+        print "Path taken was : " + str(pathTaken)
         print "Path length was : " + str(len(pathTaken))
         self.currentLocation = self.garageLocation
         totalTraveled += len(pathTaken)

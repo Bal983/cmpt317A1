@@ -118,6 +118,8 @@ def aStarSearch(graphToSearch, startNode, endNode, heuristic):
         if(currentNode == endNode):
             return reconstructPath(cameFromMap , currentNode)
         
+        print currentNode
+        
         openSet.remove(currentNode)
         closedSet.add(currentNode)
         

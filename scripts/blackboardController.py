@@ -13,9 +13,9 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 1000          # graphSize^2 = M
-    numberOfCars            = 10            # N
-    numberOfPackages        = 100           # K
+    graphSize               = 10            # graphSize^2 = M
+    numberOfCars            = 1             # N
+    numberOfPackages        = 1             # K
     numberOfGraphs          = 1             # This will probably remain 1
 
     #Graph reduction settings
@@ -25,7 +25,8 @@ def main():
     additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
                                             # this makes the degree of selected nodes unlikely to have the same degree
     ignoreChance            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
-
+    minimumDegree           = 2             # The algorithm will strive to have the minimum degree be 2
+    
     # These values are used for the test log entry - adjust before running tests
     codeVersion             = "f5572fe"     # The first 7 characters of the run's GitHub revision code
     teamMember              = "David"       # The name of the person running this test
@@ -37,6 +38,10 @@ def main():
     sys.stdout.write("Creating graph........................")
     graphImplementation.makeGraphList( graphSize )
     print "Done!"
+    
+    sys.stdout.write("Reducing graph........................")
+    for graph in graphImplementation.graphs:
+        graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
 
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:
@@ -55,7 +60,6 @@ def main():
             sys.stdout.write("Assigning packages to cars............")
             assignPackages(currentGraph, cars, packages)
             print "Done!"
-
 
             for car in cars:
                 print car.totalDifficulty
@@ -114,7 +118,6 @@ def assignPackages( graph, CARS, PACKAGES):
     #note, in this case, the gScores will be the difficulty from any car at its current position to the package pickup location
     #the heuristic is simply the difficulty rating of the package, which is calculated at the time of package construction
     #so the fScore will be the difficulty to deliver the package + the difficulty to get to the package.
-
     difficultyPerCar = dict()
 
     while minHeap:
@@ -129,9 +132,6 @@ def assignPackages( graph, CARS, PACKAGES):
 
         bestCost[0].packageList.append(currentNode[1])
         bestCost[0].totalDifficulty += difficultyPerCar[bestCost[0]]
-
-        #print bestCost[0].totalDifficulty
-        #now we need to assign the package to the car with the smallest fScore that also has the lowest currentDifficulty
 
 def getDifficulty(car, package):
     if(len(car.packageList) == 0):
