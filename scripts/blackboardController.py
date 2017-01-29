@@ -13,25 +13,25 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 10            # graphSize^2 = M
-    numberOfCars            = 1             # N
-    numberOfPackages        = 1             # K
-    numberOfGraphs          = 1             # This will probably remain 1
+    graphSize               = 10                # graphSize^2 = M
+    numberOfCars            = 2                 # N
+    numberOfPackages        = 4                 # K
+    numberOfGraphs          = 1                 # This will probably remain 1
 
     #Graph reduction settings
-    isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
-    performGraphReduction   = True          # The graph will perform the reduction algorithm
-    reductionFactor         = 0.5           # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
-    additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
-                                            # this makes the degree of selected nodes unlikely to have the same degree
-    ignoreChance            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
-    minimumDegree           = 2             # The algorithm will strive to have the minimum degree be 2
+    isMinimumSpanningTree   = False             # If true, the tree will be minimum spanning
+    performGraphReduction   = True              # The graph will perform the reduction algorithm
+    reductionFactor         = 0.5               # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
+    additionalRandomness    = True              # Makes the graph reduction function have a chance to not remove an edge
+                                                # this makes the degree of selected nodes unlikely to have the same degree
+    ignoreChance            = 0.5               # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
+    minimumDegree           = 2                 # The algorithm will strive to have the minimum degree be 2
     
     # These values are used for the test log entry - adjust before running tests
-    codeVersion             = "f5572fe"     # The first 7 characters of the run's GitHub revision code
-    teamMember              = "David"       # The name of the person running this test
-    packageAssignmentMethod = "Arbitrary"   # The method used to assign packages
-    pathfindingMethod       = "A* Search"   # The method used to pathfind
+    codeVersion             = "832eabf"         # The first 7 characters of the run's GitHub revision code
+    teamMember              = "David"           # The name of the person running this test
+    packageAssignmentMethod = "Pseudo-Logical"  # The method used to assign packages
+    pathfindingMethod       = "A* Search"       # The method used to pathfind
     currentDatetime = datetime.datetime.now()
 
     #Generating a list of graphs to use
@@ -100,10 +100,17 @@ def main():
     sys.stdout.write(str(numberOfPackages) + "\t")
     sys.stdout.write(str(graphSize) + "\t")
     sys.stdout.write(str(numberOfGraphs) + "\t")
-    sys.stdout.write("Arbitrary" + "\t")
-    sys.stdout.write("A* Search" + "\t")
+    sys.stdout.write(str(isMinimumSpanningTree) + "\t")
+    sys.stdout.write(str(performGraphReduction) + "\t")
+    sys.stdout.write(str(reductionFactor) + "\t")
+    sys.stdout.write(str(additionalRandomness) + "\t")
+    sys.stdout.write(str(ignoreChance) + "\t")
+    sys.stdout.write(str(minimumDegree) + "\t")
+    sys.stdout.write(packageAssignmentMethod + "\t")
+    sys.stdout.write(pathfindingMethod + "\t")
     sys.stdout.write(str(endTime - startTime) + "\t")
     sys.stdout.write(str(grandTotal) + "\t")
+    
     print
     print "=========================================================================="
 
