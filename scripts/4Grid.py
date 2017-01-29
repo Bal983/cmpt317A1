@@ -45,7 +45,11 @@ def reduceGraph(graph, reductionFactor, minimumDegree):
             valid = G.degree(edge[0]) > minimumDegree and G.degree(edge[1]) > minimumDegree
             if(valid):
 
+
                 G.remove_edge(edge[0], edge[1])
+                if( not nx.is_connected(G)) :
+                    G.add_edge(edge[0],edge[1])
+
     edgeCountFinal = len(G.edges())
     print "Starting edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
@@ -71,6 +75,8 @@ def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
             if(valid):
 
                 G.remove_edge(edge[0], edge[1])
+                if( not nx.is_connected(G)) :
+                    G.add_edge(edge[0],edge[1])
     edgeCountFinal = len(G.edges())
     print "Starting edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
@@ -130,9 +136,12 @@ pltGrid.show()
 
 
 
-N = 15  # input("Enter dimensions for grid plot.")
+N = 10  # input("Enter dimensions for grid plot.")
 G = nx.grid_2d_graph(N, N)
-minimumSpanningTree(G)
+for i in range(0,5) :
+    reduceGraphRand(G, .1 , 1 , .5 )
+
+
 # minimumSpanningTree(G)
 
 pos = dict((n, n) for n in G.nodes())

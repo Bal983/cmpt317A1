@@ -114,8 +114,9 @@ def reduceGraph(graph, reductionFactor, minimumDegree):
         for edge in edges:
             valid = graph.degree(edge[0]) > minimumDegree and graph.degree(edge[1]) > minimumDegree
             if(valid):
-
                 graph.remove_edge(edge[0], edge[1])
+                if( not graphLibrary.is_connected( graph )) :
+                    graph.add_edge(edge[0],edge[1])
     edgeCountFinal = len(graph.edges())
     print "Final edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
@@ -140,8 +141,9 @@ def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
         for edge in edges:
             valid = graph.degree(edge[0]) > minimumDegree and graph.degree(edge[1]) > minimumDegree
             if(valid):
-
                 graph.remove_edge(edge[0], edge[1])
+                if( not graphLibrary.is_connected( graph )) :
+                    graph.add_edge(edge[0],edge[1])
     edgeCountFinal = len(graph.edges())
     print "Starting edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
