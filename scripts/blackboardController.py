@@ -14,8 +14,9 @@ def main():
     # These values change the performance and complexity of the problem
     graphSize               = 100            # graphSize^2 = M
     numberOfCars            = 2              # N
-    numberOfPackages        = 6              # K
+    numberOfPackages        = 5              # K
     numberOfGraphs          = 1              # This will probably remain 1
+    usingOptimal            = False           #use the optimal Algorithm, very slow
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
@@ -29,7 +30,11 @@ def main():
     # These values are used for the test log entry - adjust before running tests
     codeVersion             = "5f85d88"         # The first 7 characters of the run's GitHub revision code
     teamMember              = "David"           # The name of the person running this test
-    packageAssignmentMethod = "Pseudo-Logical"  # The method used to assign packages
+    if usingOptimal:
+        packageAssignmentMethod = "Logical        "  # The method used to assign packages
+    else:
+        packageAssignmentMethod = "Pseudo-Logical"  # The method used to assign packages
+
     pathfindingMethod       = "A* Search"       # The method used to pathfind
     currentDatetime = datetime.datetime.now()
 
@@ -57,13 +62,14 @@ def main():
     print "Done!"
     
     print #handy statement just to add a newline
+    
+    startTime = time.time()
 
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
             sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
-            #objectList = graphImplementation.createDefinedObjects( currentGraph )
             print "Done!"
             print #handy statement just to add a newline
 
@@ -75,14 +81,16 @@ def main():
             
             # Assign the packages to cars
             sys.stdout.write("Assigning packages to cars............")
-            assignPackages.pseudoLogicalAssignment(cars, packages)
-            #assignPackages.startSearchTree(cars, packages)
+            if usingOptimal:
+                assignPackages.startSearchTree(cars, packages)
+            else:
+                assignPackages.pseudoLogicalAssignment(cars, packages)
             print "Done!"
             print #handy statement just to add a newline
 
             # Initialize timer
             grandTotal = 0
-            startTime = time.time()
+
 
             # Call a search method for each car on the map
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -106,7 +114,41 @@ def main():
 
     # Print diagnostic information at very end of simulation
     print "=========================================================================="
-    print "EXECUTION LOG - COPY TO TESTING SPREADSHEET"
+    print "IMPORTANT EXECUTION LOG - COPY TO TESTING SPREADSHEET"
+    print "--------------------------------------------------------------------------"
+
+    #adding a heading that shows what each thing is
+    sys.stdout.write("Time                \t")
+    sys.stdout.write("Code Version\t")
+    sys.stdout.write("Team Member\t")
+    sys.stdout.write("Cars\t")
+    sys.stdout.write("Packages\t")
+    sys.stdout.write("Graph Size\t")
+    sys.stdout.write("Reduced?\t")
+    sys.stdout.write("Assignment Method\t")
+    sys.stdout.write("Pathfinding Method\t")
+    sys.stdout.write("Total time\t     ")
+    sys.stdout.write("\"Gas\" Usage\n")  
+    
+    # Shouldn't need to alter these directly
+    sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t")
+    sys.stdout.write(codeVersion + "\t        ")
+    sys.stdout.write(teamMember + "\t        ")
+    sys.stdout.write(str(numberOfCars) + "\t")
+    sys.stdout.write(str(numberOfPackages) + "\t        ")
+    sys.stdout.write(str(graphSize) + "\t        ")
+    sys.stdout.write(str(performGraphReduction) + "\t        ")
+    sys.stdout.write(packageAssignmentMethod + "\t        ")
+    sys.stdout.write(pathfindingMethod + "\t        ")
+    sys.stdout.write(str(endTime - startTime) + "\t     ")
+    sys.stdout.write(str(grandTotal) + "\t")
+    
+    print
+    print "=========================================================================="
+    
+        # Print diagnostic information at very end of simulation
+    print "=========================================================================="
+    print "EXTRA EXECUTION LOG - COPY TO TESTING SPREADSHEET"
     print "--------------------------------------------------------------------------"
 
     #adding a heading that shows what each thing is

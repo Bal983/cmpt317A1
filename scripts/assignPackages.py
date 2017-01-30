@@ -1,9 +1,8 @@
 #_______________libraries______________
 import heapq
-from Finder.Files import packages
+import package
 import copy
 from pip._vendor.pyparsing import _MAX_INT
-import sys
 
 #_______________functions______________
 currentBest = (0, dict())
