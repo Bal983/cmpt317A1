@@ -12,11 +12,11 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 20            # graphSize^2 = M
+    graphSize               = 100            # graphSize^2 = M
     numberOfCars            = 2              # N
-    numberOfPackages        = 8              # K
+    numberOfPackages        = 10              # K
     numberOfGraphs          = 1              # This will probably remain 1
-    usingOptimal            = False           #use the optimal Algorithm, very slow
+    usingOptimal            = True           #use the optimal Algorithm, very slow
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
@@ -74,13 +74,15 @@ def main():
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
             #calculating difficulty addition
-            difficultyAddition = 1
             if(performGraphReduction):
                 sys.stdout.write("Calculating difficulty addition.......")
-                difficultyAddition += reductionFactor + (numberOfEdgesPreReduction/numberOfEdgesPostReduction)
-                sys.stdout.write("done\n")
-                print difficultyAddition
-            
+                difficultyAddition = (reductionFactor + (float(numberOfEdgesPreReduction)/float(numberOfEdgesPostReduction)))
+            else:
+                difficultyAddition = 1
+            sys.stdout.write("Done\n")
+            print "\tThe difficulty exponent was: ", difficultyAddition, "\n"
+                
+                
             sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph, difficultyAddition)
             print "Done!"
@@ -121,6 +123,11 @@ def main():
 
             print "The grand total (total path lengths) was: " + str(grandTotal)
             print "\tAnd the total real time taken was: " + str(endTime - startTime)
+            
+            print "=========================================================================="
+            for car in cars:
+                sys.stdout.write("(CAR:" + str(car.identifier) + ",PACKAGES:" + str(len(car.packageList)) + ") | ")
+            print 
 
     print "All packages delivered!"
 

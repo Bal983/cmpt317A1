@@ -154,7 +154,7 @@ def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
                 if( not graphLibrary.is_connected( graph )) :
                     graph.add_edge(edge[0],edge[1])
     edgeCountFinal = len(graph.edges())
-    print "Starting edge count: " + str(edgeCountFinal)
+    print "Final edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
 
 def testing( size ):
