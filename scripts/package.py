@@ -1,5 +1,5 @@
 #_______________imports_______________
-
+from math import pow
 #_______________class_______________
 class Package:
     
@@ -8,18 +8,18 @@ class Package:
     # identifier - a numeric identifier for the package
     # pickupLocation - the coordinates where the package is picked up
     # dropoffLocation - the coordinates where the package is dropped off
-    def __init__(self, identifier, pickupLocation, dropoffLocation):
+    def __init__(self, identifier, pickupLocation, dropoffLocation, difficultyAddition):
         self.identifier = identifier
         self.pickupLocation = pickupLocation
         self.dropoffLocation = dropoffLocation
-        self.calculateDifficulty( pickupLocation, dropoffLocation)        
+        self.calculateDifficulty( pickupLocation, dropoffLocation, difficultyAddition)        
         
-    def calculateDifficulty(self, pickupLocation, dropoffLocation ):
+    def calculateDifficulty(self, pickupLocation, dropoffLocation, difficultyAddition):
         pickupLocationX = pickupLocation[0]
         pickupLocationY = pickupLocation[1]
         dropoffLocationX = dropoffLocation[0]
         dropoffLocationY = dropoffLocation[1]
-        self.difficulty = abs(pickupLocationX - dropoffLocationX) + abs(pickupLocationY - dropoffLocationY)
+        self.difficulty = pow((abs(pickupLocationX - dropoffLocationX) + abs(pickupLocationY - dropoffLocationY)),difficultyAddition)
     
     def testing( self ):
         print

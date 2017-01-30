@@ -2,7 +2,8 @@
 import heapq
 import package
 import copy
-from pip._vendor.pyparsing import _MAX_INT
+from sys import maxint
+from math import pow
 
 #_______________functions______________
 currentBest = (0, dict())
@@ -37,9 +38,9 @@ def pseudoLogicalAssignment( CARS, PACKAGES):
 #calculates the difficulty for one car to pick up a package
 def getDifficulty(car, package):
     if(len(car.packageList) == 0):
-        return abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])
+        return pow((abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])), car.difficulty)
     else:
-        return abs(car.packageList[-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(car.packageList[-1].dropoffLocation[1] - package.pickupLocation[1])
+        return pow((abs(car.packageList[-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(car.packageList[-1].dropoffLocation[1] - package.pickupLocation[1])), car.difficulty)
     
     
 def startSearchTree( CARS, PACKAGES ):
@@ -55,7 +56,7 @@ def startSearchTree( CARS, PACKAGES ):
     global currentBest
     global currentSolution
     
-    currentBest = (_MAX_INT, carDict)
+    currentBest = (maxint, carDict)
     currentSolution = (0, copy.copy(carDict))
     
     searchTree( CARS, PACKAGES, 1)
@@ -118,9 +119,9 @@ def searchTree(CARS, PACKAGES, indent):
 def revisedGetDifficulty(car, package):
     global currentSolution
     if(len(currentSolution[1][car]) == 0):
-        return abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])
+        return pow((abs(car.garageLocation[0] - package.pickupLocation[0]) + abs(car.garageLocation[1] - package.pickupLocation[1])), car.difficulty)
     else:
-        return abs(currentSolution[1][car][-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(currentSolution[1][car][-1].dropoffLocation[1] - package.pickupLocation[1])
+        return pow((abs(currentSolution[1][car][-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(currentSolution[1][car][-1].dropoffLocation[1] - package.pickupLocation[1])), car.difficulty)
     
 
                 

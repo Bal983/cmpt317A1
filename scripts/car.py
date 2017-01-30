@@ -8,12 +8,14 @@ class Car:
     # garageLocation - the coordinates of the garage location i.e. where the car starts and ends its route
     # packageList - a list of packages for the car to pick up and deliver
     # currentLocation - the coordinates where the car currently is, initially at the garage
-    def __init__(self, identifier, garageLocation):
+    def __init__(self, identifier, garageLocation, difficultyAddition):
         self.identifier = identifier
         self.garageLocation = garageLocation
         self.packageList = [] 
         self.currentLocation = garageLocation
         self.totalDifficulty = 0
+        self.difficulty = difficultyAddition
+        
     
     # _________________methods_______________
     # given a map (graph) to search

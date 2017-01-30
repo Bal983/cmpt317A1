@@ -50,7 +50,7 @@ def drawGraph( graph, colour ):
 
 #given a graph, a number of garages and a number of packages, we will generate a number of points.
 #note: it will generate points such that packagePickupNumber[location] is related to packageDropoffNumber[location]
-def createObjects( numberOfGarages, numberOfPackages, graph):
+def createObjects( numberOfGarages, numberOfPackages, graph, difficultyAddition):
     #defining empty lists for the two groups of objects we want to return
     carList = list()
     packageList = list()
@@ -59,7 +59,7 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
     #generating x car objects with a random garage location
     for x in range( 0, numberOfGarages ):
         garageLocation = random.randrange(0, maxRange)
-        carList.append( Car(x, list(graph.nodes())[garageLocation]) )
+        carList.append( Car(x, list(graph.nodes())[garageLocation], difficultyAddition) )
         #print "Car " + str(x) + " has been created"
 
     #generating x package objects with random pickup/dropoff locations
@@ -71,7 +71,7 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
         while( pickupLocation == dropoffLocation ):
             dropoffLocation = random.randrange( 0, maxRange )
 
-        packageList.append( Package(x, list(graph.nodes())[pickupLocation], list(graph.nodes())[dropoffLocation]) )
+        packageList.append( Package(x, list(graph.nodes())[pickupLocation], list(graph.nodes())[dropoffLocation], difficultyAddition) )
         #print "Package " + str(x) + " has been created"
 
     return [carList, packageList]
