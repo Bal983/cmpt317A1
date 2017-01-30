@@ -55,9 +55,9 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
     carList = list()
     packageList = list()
 
+    maxRange = len(list(graph.nodes()))
     #generating x car objects with a random garage location
     for x in range( 0, numberOfGarages ):
-        maxRange = len(list(graph.nodes()))
         garageLocation = random.randrange(0, maxRange)
         carList.append( Car(x, list(graph.nodes())[garageLocation]) )
         #print "Car " + str(x) + " has been created"
@@ -73,6 +73,25 @@ def createObjects( numberOfGarages, numberOfPackages, graph):
 
         packageList.append( Package(x, list(graph.nodes())[pickupLocation], list(graph.nodes())[dropoffLocation]) )
         #print "Package " + str(x) + " has been created"
+
+    return [carList, packageList]
+
+def createDefinedObjects( graph ):
+    carList = list()
+    packageList = list()
+
+    #creating cars
+    carList.append( Car(0, (0, 0)))
+    carList.append( Car(1, (99, 99)))
+
+    #creating packages
+    packageList.append( Package(0, (1, 0), (2, 0)))
+    packageList.append( Package(1, (1, 1), (2, 1)))
+    packageList.append( Package(2, (1, 2), (2, 2)))
+    packageList.append( Package(3, (1, 3), (2, 3)))
+    packageList.append( Package(4, (98, 97), (97, 97)))
+    packageList.append( Package(5, (98, 98), (97, 98)))
+    packageList.append( Package(6, (98, 99), (97, 99)))
 
     return [carList, packageList]
 

@@ -108,6 +108,8 @@ class Car:
             self.currentLocation = package.dropoffLocation
             totalTraveled += len(pathTaken)
             print
+            
+            totalTraveled -= 2
 
         # this final call goes home
         print "------------------------------------------------------------"
@@ -118,6 +120,7 @@ class Car:
         self.currentLocation = self.garageLocation
         totalTraveled += len(pathTaken)
         
+        totalTraveled -= 1
         return totalTraveled
         
     def testing( self ):

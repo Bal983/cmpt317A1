@@ -12,14 +12,14 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 10            # graphSize^2 = M
-    numberOfCars            = 3             # N
-    numberOfPackages        = 5            # K
-    numberOfGraphs          = 1             # This will probably remain 1
+    graphSize               = 100            # graphSize^2 = M
+    numberOfCars            = 2              # N
+    numberOfPackages        = 6              # K
+    numberOfGraphs          = 1              # This will probably remain 1
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
-    performGraphReduction   = True          # The graph will perform the reduction algorithm
+    performGraphReduction   = False          # The graph will perform the reduction algorithm
     reductionFactor         = 1             # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
     additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
                                             # this makes the degree of selected nodes unlikely to have the same degree
@@ -63,19 +63,20 @@ def main():
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
             sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph)
+            #objectList = graphImplementation.createDefinedObjects( currentGraph )
             print "Done!"
             print #handy statement just to add a newline
-
 
             #Note: objectList is a list of two lists formatted as follows:
                 #cars: the list of garage numbers that exist on the map
                 #packages: the list of package objects, each object knows its drop off/pickup locations
             cars = objectList[0]
             packages = objectList[1]
-
+            
             # Assign the packages to cars
             sys.stdout.write("Assigning packages to cars............")
-            assignPackages.pseudoLogicalAssignment(currentGraph, cars, packages)
+            assignPackages.pseudoLogicalAssignment(cars, packages)
+            #assignPackages.startSearchTree(cars, packages)
             print "Done!"
             print #handy statement just to add a newline
 
@@ -86,11 +87,14 @@ def main():
             # Call a search method for each car on the map
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             for car in cars:
+                carTotal = 0
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
-                grandTotal += car.useBFS(currentGraph)
+                carTotal += car.useAStar(currentGraph)
+                grandTotal += carTotal
                 print
                 print "CAR " + str(car.identifier) + " FINISHED"
+                print "CAR used gas: " + str(carTotal)
                 print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
             endTime = time.time()
 
@@ -99,8 +103,6 @@ def main():
 
     print "All packages delivered!"
 
-    if ( graphSize <= 10):
-        graphImplementation.makeAllFigures( "White" )
 
     # Print diagnostic information at very end of simulation
     print "=========================================================================="
@@ -147,6 +149,9 @@ def main():
     
     print
     print "=========================================================================="
-
+    
+    if ( graphSize <= 10):
+        graphImplementation.makeAllFigures( "White" )
+    
 if __name__ == "__main__":
     main()
