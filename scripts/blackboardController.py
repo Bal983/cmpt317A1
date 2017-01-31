@@ -12,7 +12,7 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 100            # graphSize^2 = M
+    graphSize               = 50            # graphSize^2 = M
     numberOfCars            = 2              # N
     numberOfPackages        = 10              # K
     numberOfGraphs          = 1              # This will probably remain 1
@@ -21,12 +21,8 @@ def main():
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
     performGraphReduction   = True          # The graph will perform the reduction algorithm
-    reductionFactor         = 1            # The % of nodes that will be chosen for edge reduction    ( 0.0 , 1.0 )
-    additionalRandomness    = True          # Makes the graph reduction function have a chance to not remove an edge
-                                            # this makes the degree of selected nodes unlikely to have the same degree
-    randomFactor            = 0.5           # The strength of the additional randomness   0.0 = No difference,   1.0 = Edges can never be removed
-    minimumDegree           = 2             # The algorithm will strive to have the minimum degree be 2
-    
+    reductionFactor         = .5            # 1    ( 0.0 , 1.0 )
+
     # These values are used for the test log entry - adjust before running tests
     codeVersion             = "5f85d88"         # The first 7 characters of the run's GitHub revision code
     teamMember              = "David"           # The name of the person running this test
@@ -44,30 +40,31 @@ def main():
     print "Done!"
     for graph in graphImplementation.graphs:
         print graphImplementation.printGraphStats(graph)
-        
+
     numberOfEdgesPreReduction = graphImplementation.graphLibrary.number_of_edges(graph)
-        
+
     print #handy statement just to add a newline
-    
+
     #Reducing all of the graphs by the above options
     sys.stdout.write("Reducing graph........................\n")
     for graph in graphImplementation.graphs:
-        if(performGraphReduction):
+        if(performGraphReduction or isMinimumSpanningTree):
             if(isMinimumSpanningTree):
-                graphImplementation.minimumSpanningTree(graph)
-                continue
-            elif(additionalRandomness):
-                graphImplementation.reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor)
+                graph = graphImplementation.minimumSpanningTree(graph)
+                print "Post reduction stats : \n \n"
+                print graphImplementation.graphLibrary.info(graph)
                 continue
             else:
-                graphImplementation.reduceGraph(graph, reductionFactor, minimumDegree)
-    print "Done!"
-    
+                graph = graphImplementation.reduceGraph(graph, reductionFactor)
+                print "Post reduction stats : "
+                print graphImplementation.graphLibrary.info(graph)
+    print "Done"
+
     numberOfEdgesPostReduction = graphImplementation.graphLibrary.number_of_edges(graph)
 
-    
+
     print #handy statement just to add a newline
-    
+
     startTime = time.time()
 
     #for each graph we generated, we set up random locations and then get those packages.
@@ -81,19 +78,19 @@ def main():
                 difficultyAddition = 1
             sys.stdout.write("Done\n")
             print "\tThe difficulty exponent was: ", difficultyAddition, "\n"
-                
-                
+
+
             sys.stdout.write("Creating car and package objects......")
             objectList = graphImplementation.createObjects(numberOfCars, numberOfPackages, currentGraph, difficultyAddition)
             print "Done!"
             print #handy statement just to add a newline
-            
+
             #Note: objectList is a list of two lists formatted as follows:
                 #cars: the list of garage numbers that exist on the map
                 #packages: the list of package objects, each object knows its drop off/pickup locations
             cars = objectList[0]
             packages = objectList[1]
-            
+
             # Assign the packages to cars
             sys.stdout.write("Assigning packages to cars............")
             if usingOptimal:
@@ -123,11 +120,11 @@ def main():
 
             print "The grand total (total path lengths) was: " + str(grandTotal)
             print "\tAnd the total real time taken was: " + str(endTime - startTime)
-            
+
             print "=========================================================================="
             for car in cars:
                 sys.stdout.write("(CAR:" + str(car.identifier) + ",PACKAGES:" + str(len(car.packageList)) + ") | ")
-            print 
+            print
 
     print "All packages delivered!"
 
@@ -148,8 +145,8 @@ def main():
     sys.stdout.write("Assignment Method\t")
     sys.stdout.write("Pathfinding Method\t")
     sys.stdout.write("Total time\t     ")
-    sys.stdout.write("\"Gas\" Usage\n")  
-    
+    sys.stdout.write("\"Gas\" Usage\n")
+
     # Shouldn't need to alter these directly
     sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t")
     sys.stdout.write(codeVersion + "\t        ")
@@ -162,10 +159,10 @@ def main():
     sys.stdout.write(pathfindingMethod + "\t        ")
     sys.stdout.write(str(endTime - startTime) + "\t     ")
     sys.stdout.write(str(grandTotal) + "\t")
-    
+
     print
     print "=========================================================================="
-    
+
         # Print diagnostic information at very end of simulation
     print "=========================================================================="
     print "EXTRA EXECUTION LOG - COPY TO TESTING SPREADSHEET"
@@ -188,8 +185,8 @@ def main():
     sys.stdout.write("Assignment Method\t")
     sys.stdout.write("Pathfinding Method\t")
     sys.stdout.write("Total time\t     ")
-    sys.stdout.write("\"Gas\" Usage\n")  
-    
+    sys.stdout.write("\"Gas\" Usage\n")
+
     # Shouldn't need to alter these directly
     sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t")
     sys.stdout.write(codeVersion + "\t        ")
@@ -208,12 +205,12 @@ def main():
     sys.stdout.write(pathfindingMethod + "\t        ")
     sys.stdout.write(str(endTime - startTime) + "\t     ")
     sys.stdout.write(str(grandTotal) + "\t")
-    
+
     print
     print "=========================================================================="
-    
+
     if ( graphSize <= 10):
         graphImplementation.makeAllFigures( "White" )
-    
+
 if __name__ == "__main__":
     main()

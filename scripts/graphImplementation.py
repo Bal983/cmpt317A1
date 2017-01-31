@@ -18,8 +18,10 @@ def makeGraphList( size ):
 #a grid graph by default is such that each node has an edge between each coordinate neighbor.
 #technical the graphs can be size n by m, but n by n is more visually pleasing and doesn't take away from the searches.
 def createGridGraph ( size ):
-    graphs.append(graphLibrary.grid_2d_graph(size, size, periodic=False, create_using=None))
-
+     g =graphLibrary.grid_2d_graph(size, size, periodic=False, create_using=None)
+     for (u,v,w) in g.edges(data=True):
+        w['weight'] = 1
+     graphs.append(g)
 #given a graph it will use the networkx features to #print the stats of a graph, for testing purposes
 def printGraphStats( toPrint ):
     print ("Standard library stats:")
@@ -98,65 +100,44 @@ def createDefinedObjects( graph ):
 def removeRandomEdges( graph ):
     #put the code that removes random edges here.
     print "removeRandomEdges was called"
-    
 def minimumSpanningTree(G):
+    print "----------------------------------"
     print "Making a minimum spanning tree."
-    reduceGraph(G , 1.0 , 1.0)
-    print "Remaining edges"
-    
+    min = graphLibrary.prim_mst(G)
+    print "Edges after minimizing :" + str(len(min.edges()))
+    print "----------------------------------"
+    return min
+
 # reduces the connected of a graph by selecting a percentage of the nodes and destroying
 # the edges if a minimum degree is maintained
 # reductionFactor :float in (0.0 , 1.0 )
 # minimumDegree   :int in [0 , inf)
-def reduceGraph(graph, reductionFactor, minimumDegree):
-    print "Trimming " + str(reductionFactor * 100) + "% of the nodes in " + str( graph )
-    print "Minimum Degree of " + str(minimumDegree) + " will be preserved."
+def reduceGraph(graph,difficulty):
+    #print "Trimming " + str(reductionFactor * 100) + "% of the nodes in " + str( graph )
     graphLibrary.info ( graph )
     originalNodes = graph.nodes()
-    # Take a random sample of the nodes according to the parameters
-    sample = random.sample(originalNodes, int(reductionFactor * len(originalNodes)))
+    toAdd = set()
+
     # Remove all edges that don't break the degree rule
     edgeCountOrig = len(graph.edges())
     print "Starting edge count: " + str (edgeCountOrig)
-    for node in sample:
+    for node in originalNodes:
         edges = graph.edges(node)
         for edge in edges:
-            valid = graph.degree(edge[0]) > minimumDegree and graph.degree(edge[1]) > minimumDegree
-            if(valid):
-                graph.remove_edge(edge[0], edge[1])
-                if( not graphLibrary.is_connected( graph )) :
-                    graph.add_edge(edge[0],edge[1])
+
+            reAdd =(random.random() > difficulty)
+            if(reAdd):
+
+                    toAdd.add((edge[0], edge[1]))
+                    #graph.remove_edge(edge[0], edge[1])
+    graph = minimumSpanningTree(graph)
+    for edge in toAdd:
+        graph.add_edge(edge[0],edge[1])
+
     edgeCountFinal = len(graph.edges())
     print "Final edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
-
-# reduces the connected of a graph by selecting a percentage of the nodes and destroying
-# the edges if a minimum degree is maintained. Addition: pseudo-random defects compared to standard result
-# reductionFactor :float in (0.0 , 1.0 )
-# minimumDegree   :int in [0 , inf)
-# rand            :float in (0.0 , 1.0 ) : likelihood for a removal to be executed
-def reduceGraphRand(graph, reductionFactor, minimumDegree, randomFactor):
-    print "Trimming " + str(reductionFactor * 100) + "% of the nodes in " + str( graph )
-    print "Minimum Degree of " + str(minimumDegree) + " will be preserved."
-    graphLibrary.info ( graph )
-    originalNodes = graph.nodes()
-    # Take a random sample of the nodes according to the parameters
-    sample = random.sample(originalNodes, int(reductionFactor * len(originalNodes)))
-    # Remove all edges that don't break the degree rule
-    edgeCountOrig = len(graph.edges())
-    print "Starting edge count: " + str (edgeCountOrig)
-    for node in sample:
-        edges = graph.edges(node)
-        for edge in edges:
-            valid = graph.degree(edge[0]) > minimumDegree and graph.degree(edge[1]) > minimumDegree
-            if(valid):
-                graph.remove_edge(edge[0], edge[1])
-                if( not graphLibrary.is_connected( graph )) :
-                    graph.add_edge(edge[0],edge[1])
-    edgeCountFinal = len(graph.edges())
-    print "Final edge count: " + str(edgeCountFinal)
-    print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
-
+    return graph
 def testing( size ):
     print
     print "-------------------------"
