@@ -123,12 +123,3 @@ def revisedGetDifficulty(car, package):
     else:
         return pow((abs(currentSolution[1][car][-1].dropoffLocation[0] - package.pickupLocation[0]) + abs(currentSolution[1][car][-1].dropoffLocation[1] - package.pickupLocation[1])), car.difficulty)
     
-
-                
-                
-                
-                
-                
-                
-                
-                

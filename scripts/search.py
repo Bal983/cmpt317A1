@@ -167,10 +167,5 @@ def reconstructPath(cameFromMap , goalNode):
         path.append(current)
     return path
     
-def testing():
-    print
-    print "-------------------------"
-    print "testing the search file"
-    
 if __name__ == "__main__":
     testing()

@@ -8,6 +8,7 @@ class Package:
     # identifier - a numeric identifier for the package
     # pickupLocation - the coordinates where the package is picked up
     # dropoffLocation - the coordinates where the package is dropped off
+    # difficulty - a value representing the size of the distance between a package's pickup and dropoff locations
     def __init__(self, identifier, pickupLocation, dropoffLocation, difficultyAddition):
         self.identifier = identifier
         self.pickupLocation = pickupLocation
@@ -20,11 +21,6 @@ class Package:
         dropoffLocationX = dropoffLocation[0]
         dropoffLocationY = dropoffLocation[1]
         self.difficulty = pow((abs(pickupLocationX - dropoffLocationX) + abs(pickupLocationY - dropoffLocationY)),difficultyAddition)
-    
-    def testing( self ):
-        print
-        print "-------------------------"
-        print "testing the package file"
         
     if __name__ == "__main__":
         testing( None )

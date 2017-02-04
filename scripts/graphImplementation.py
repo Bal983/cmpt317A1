@@ -138,6 +138,7 @@ def reduceGraph(graph,difficulty):
     print "Final edge count: " + str(edgeCountFinal)
     print "Final reduction percentage :" + str( ( float (edgeCountFinal)/ float (edgeCountOrig )))
     return graph
+
 def testing( size ):
     print
     print "-------------------------"

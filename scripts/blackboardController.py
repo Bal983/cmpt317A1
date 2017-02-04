@@ -7,8 +7,6 @@ import sys
 import assignPackages
 
 #_______________functions_______________
-def testing():
-    print
 
 def main():
     # These values change the performance and complexity of the problem
@@ -24,7 +22,7 @@ def main():
     reductionFactor         = .5            # 1    ( 0.0 , 1.0 )
 
     # These values are used for the test log entry - adjust before running tests
-    codeVersion             = "5f85d88"         # The first 7 characters of the run's GitHub revision code
+    codeVersion             = "c47113b"         # The first 7 characters of the run's GitHub revision code
     teamMember              = "David"           # The name of the person running this test
     if usingOptimal:
         packageAssignmentMethod = "Logical        "  # The method used to assign packages
@@ -198,9 +196,6 @@ def main():
     sys.stdout.write(str(isMinimumSpanningTree) + "\t        ")
     sys.stdout.write(str(performGraphReduction) + "\t        ")
     sys.stdout.write(str(reductionFactor) + "\t                ")
-    sys.stdout.write(str(additionalRandomness) + "\t                ")
-    sys.stdout.write(str(randomFactor) + "\t        ")
-    sys.stdout.write(str(minimumDegree) + "\t        ")
     sys.stdout.write(packageAssignmentMethod + "\t        ")
     sys.stdout.write(pathfindingMethod + "\t        ")
     sys.stdout.write(str(endTime - startTime) + "\t     ")

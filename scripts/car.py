@@ -125,10 +125,5 @@ class Car:
         totalTraveled -= 1
         return totalTraveled
         
-    def testing( self ):
-        print
-        #print "-------------------------"
-        ##print "testing the car file"
-        
     if __name__ == "__main__":
         testing( None )
