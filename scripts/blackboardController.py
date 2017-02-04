@@ -12,11 +12,11 @@ def testing():
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 50            # graphSize^2 = M
-    numberOfCars            = 2              # N
-    numberOfPackages        = 10              # K
+    graphSize               = 100            # graphSize^2 = M
+    numberOfCars            = 20              # N
+    numberOfPackages        = 15              # K
     numberOfGraphs          = 1              # This will probably remain 1
-    usingOptimal            = True           #use the optimal Algorithm, very slow
+    usingOptimal            = False           #use the optimal Algorithm, very slow
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
