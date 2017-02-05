@@ -10,7 +10,7 @@ import assignPackages
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 100            # graphSize^2 = M
+    graphSize               = 50            # graphSize^2 = M
     numberOfCars            = 20              # N
     numberOfPackages        = 15              # K
     numberOfGraphs          = 1              # This will probably remain 1
@@ -35,11 +35,34 @@ def main():
     #Generating a list of graphs to use
     sys.stdout.write("Creating graph........................")
     graphImplementation.makeGraphList( graphSize )
+
     print "Done!"
     for graph in graphImplementation.graphs:
         print graphImplementation.printGraphStats(graph)
 
-    numberOfEdgesPreReduction = graphImplementation.graphLibrary.number_of_edges(graph)
+        numberOfEdgesPreReduction = graph.number_of_edges()
+
+        print #handy statement just to add a newline
+
+        #Reducing all of the graphs by the above options
+        sys.stdout.write("Reducing graph........................\n")
+        for graph in graphImplementation.graphs:
+            if(isMinimumSpanningTree):
+
+                    graph = graphImplementation.minimumSpanningTree(graph)
+                    print "Post reduction stats : \n \n"
+                    print graphImplementation.graphLibrary.info(graph)
+                    continue
+            if(performGraphReduction):
+
+                graph = graphImplementation.reduceGraph(graph, reductionFactor)
+                print "Post reduction stats : "
+                print graphImplementation.graphLibrary.info(graph)
+
+
+    print "Done"
+
+    numberOfEdgesPostReduction = graph.number_of_edges()
 
     print #handy statement just to add a newline
 
@@ -177,16 +200,17 @@ def main():
     sys.stdout.write("Min Tree\t")
     sys.stdout.write("Reduced?\t")
     sys.stdout.write("Reduction Factor\t")
-    sys.stdout.write("Additional Random?\t")
-    sys.stdout.write("Random Factor\t")
-    sys.stdout.write("MinDegree\t")
+    #sys.stdout.write("Additional Random?\t")
+    #sys.stdout.write("Random Factor\t")
+    #Removed because it is more expensive to maintain this
+    #sys.stdout.write("MinDegree\t")
     sys.stdout.write("Assignment Method\t")
     sys.stdout.write("Pathfinding Method\t")
     sys.stdout.write("Total time\t     ")
     sys.stdout.write("\"Gas\" Usage\n")
 
     # Shouldn't need to alter these directly
-    sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p") + "\t")
+    sys.stdout.write(currentDatetime.strftime("%d-%b-%Y %I:%M %p"))
     sys.stdout.write(codeVersion + "\t        ")
     sys.stdout.write(teamMember + "\t        ")
     sys.stdout.write(str(numberOfCars) + "\t")
@@ -195,7 +219,10 @@ def main():
     sys.stdout.write(str(numberOfGraphs) + "\t")
     sys.stdout.write(str(isMinimumSpanningTree) + "\t        ")
     sys.stdout.write(str(performGraphReduction) + "\t        ")
-    sys.stdout.write(str(reductionFactor) + "\t                ")
+
+    sys.stdout.write(str(reductionFactor) + "\t               ")
+    #### Deprecated
+    #sys.stdout.write(str(additionalRandomness) + "\t                 ")
     sys.stdout.write(packageAssignmentMethod + "\t        ")
     sys.stdout.write(pathfindingMethod + "\t        ")
     sys.stdout.write(str(endTime - startTime) + "\t     ")
@@ -209,3 +236,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
