@@ -22,6 +22,7 @@ def createGridGraph ( size ):
      for (u,v,w) in g.edges(data=True):
         w['weight'] = 1
      graphs.append(g)
+     
 #given a graph it will use the networkx features to #print the stats of a graph, for testing purposes
 def printGraphStats( toPrint ):
     print ("Standard library stats:")
