@@ -10,16 +10,17 @@ import assignPackages
 
 def main():
     # These values change the performance and complexity of the problem
-    graphSize               = 50            # graphSize^2 = M
-    numberOfCars            = 20              # N
-    numberOfPackages        = 15              # K
+    test =1
+    graphSize               = 100            # graphSize^2 = M
+    numberOfCars            = 2              # N
+    numberOfPackages        = 3              # K
     numberOfGraphs          = 1              # This will probably remain 1
-    usingOptimal            = False           #use the optimal Algorithm, very slow
+    usingOptimal            = True           #use the optimal Algorithm, very slow
 
     #Graph reduction settings
     isMinimumSpanningTree   = False         # If true, the tree will be minimum spanning
     performGraphReduction   = True          # The graph will perform the reduction algorithm
-    reductionFactor         = .5            # 1    ( 0.0 , 1.0 )
+    reductionFactor         = 1            # 1    ( 0.0 , 1.0 )
 
     # These values are used for the test log entry - adjust before running tests
     codeVersion             = "c47113b"         # The first 7 characters of the run's GitHub revision code
@@ -52,6 +53,8 @@ def main():
                     graph = graphImplementation.minimumSpanningTree(graph)
                     print "Post reduction stats : \n \n"
                     print graphImplementation.graphLibrary.info(graph)
+
+                    graphImplementation.graphs[0]= graph
                     continue
             if(performGraphReduction):
 
@@ -59,6 +62,7 @@ def main():
                 print "Post reduction stats : "
                 print graphImplementation.graphLibrary.info(graph)
 
+                graphImplementation.graphs[0]= graph
 
     print "Done"
 
@@ -67,19 +71,7 @@ def main():
     print #handy statement just to add a newline
 
     #Reducing all of the graphs by the above options
-    sys.stdout.write("Reducing graph........................\n")
-    for graph in graphImplementation.graphs:
-        if(performGraphReduction or isMinimumSpanningTree):
-            if(isMinimumSpanningTree):
-                graph = graphImplementation.minimumSpanningTree(graph)
-                print "Post reduction stats : \n \n"
-                print graphImplementation.graphLibrary.info(graph)
-                continue
-            else:
-                graph = graphImplementation.reduceGraph(graph, reductionFactor)
-                print "Post reduction stats : "
-                print graphImplementation.graphLibrary.info(graph)
-    print "Done"
+
 
     numberOfEdgesPostReduction = graphImplementation.graphLibrary.number_of_edges(graph)
 
@@ -87,7 +79,7 @@ def main():
     print #handy statement just to add a newline
 
     startTime = time.time()
-
+    print "______ASDASdadasdasd af ad assd " + graphImplementation.graphLibrary.info(graphImplementation.graphs[0])
     #for each graph we generated, we set up random locations and then get those packages.
     for currentGraph in graphImplementation.graphs:
         if (currentGraph != None):  #error check just in case there is a null (none) graph (a creation function failed)
@@ -131,6 +123,7 @@ def main():
                 carTotal = 0
                 print "CAR " + str(car.identifier) + " IS BEGINNING ROUTE WITH " + str(len(car.packageList)) + " PACKAGES"
                 print "\tGarage Location: " + str(car.currentLocation)
+
                 carTotal += car.useAStar(currentGraph)
                 grandTotal += carTotal
                 print
