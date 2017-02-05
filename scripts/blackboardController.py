@@ -11,8 +11,8 @@ import assignPackages
 def main():
     # These values change the performance and complexity of the problem
     graphSize               = 100            # graphSize^2 = M
-    numberOfCars            = 20              # N
-    numberOfPackages        = 15              # K
+    numberOfCars            = 3              # N
+    numberOfPackages        = 8              # K
     numberOfGraphs          = 1              # This will probably remain 1
     usingOptimal            = False           #use the optimal Algorithm, very slow
 
@@ -22,8 +22,8 @@ def main():
     reductionFactor         = .5            # 1    ( 0.0 , 1.0 )
 
     # These values are used for the test log entry - adjust before running tests
-    codeVersion             = "c47113b"         # The first 7 characters of the run's GitHub revision code
-    teamMember              = "David"           # The name of the person running this test
+    codeVersion             = "f68aee3"         # The first 7 characters of the run's GitHub revision code
+    teamMember              = "Bryton"           # The name of the person running this test
     if usingOptimal:
         packageAssignmentMethod = "Logical        "  # The method used to assign packages
     else:
